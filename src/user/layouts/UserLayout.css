@@ -1,0 +1,26 @@
+/* Root layout */
+.user-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+/* Main content */
+.user-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+/* Footer stays at bottom */
+.user-layout footer {
+  margin-top: auto;
+}
+
+/* Responsive spacing */
+@media (max-width: 768px) {
+  .user-content {
+    padding: 12px;
+  }
+}
