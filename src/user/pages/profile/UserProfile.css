@@ -1,0 +1,63 @@
+.profile-container {
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-card {
+  background: #ffffff;
+  width: 420px;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.profile-header h2 {
+  margin: 0;
+}
+
+.edit-btn {
+  background: #1e3a8a;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save-btn {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.profile-field {
+  margin-bottom: 15px;
+}
+
+.profile-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.profile-field input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.profile-field input:disabled {
+  background: #f3f4f6;
+}

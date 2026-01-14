@@ -1,0 +1,75 @@
+.navbar {
+  height: 70px;
+  background: #1f3c88;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* PROFILE */
+.profile-wrapper {
+  position: relative;
+}
+
+.profile-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.arrow {
+  font-size: 12px;
+}
+
+/* DROPDOWN */
+.dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: white;
+  color: black;
+  width: 180px;
+  border-radius: 6px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  overflow: hidden;
+  z-index: 999;
+}
+
+.dropdown div {
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdown div:hover {
+  background: #f1f1f1;
+}
+
+.dropdown .logout {
+  color: red;
+  font-weight: bold;
+}

@@ -1,19 +1,25 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import UserLayout from "./layouts/UserLayout";
-import Home from "./pages/dashboard/Home";
+import UserLogin from "./pages/login/UserLogin";
+import UserDashboard from "./pages/dashboard/UserDashboard";
+import UserProfile from "./pages/profile/UserProfile";
 
 function UserRoutes() {
-    return(
-        <Routes>
-            {/* User Routes */}
-            <Route element={<UserLayout />}>
-                <Route index element={<Home/>}/>
-                <Route path="/" element={<Home />} />
-            </Route>
-        
-        </Routes>
-    );
-};
+  return (
+    <Routes>
+
+      {/* ✅ Login */}
+      <Route path="login" element={<UserLogin />} />
+
+      {/* ✅ After login pages */}
+      <Route element={<UserLayout />}>
+        <Route path="dashboard" element={<UserDashboard />} />
+        <Route path="profile" element={<UserProfile />} />
+      </Route>
+
+    </Routes>
+  );
+}
 
 export default UserRoutes;
