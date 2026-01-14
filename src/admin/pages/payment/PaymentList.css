@@ -1,0 +1,25 @@
+/* Page */
+.payment-page {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.1);
+}
+
+.payment-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: #111827;
+    text-align: center;
+}
+
+.payment-title::after {
+    content: "";
+    display: block;
+    width: 120px;
+    height: 3px;
+    margin: 8px auto 0;
+    background-color: #2563eb;
+    border-radius: 2px;
+}

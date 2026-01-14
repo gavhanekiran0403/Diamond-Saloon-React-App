@@ -1,0 +1,25 @@
+.admin-footer {
+  height: 50px;
+  background-color: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+
+  /* ✅ Fixed Footer */
+  position: fixed;
+  bottom: 0;
+  left: 250px; /* sidebar width */
+  width: calc(100% - 250px);
+  z-index: 1500;
+}
+
+.admin-footer p {
+  margin: 0;
+}

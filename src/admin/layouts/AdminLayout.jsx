@@ -9,10 +9,10 @@ import AdminFooter from "../components/footer/AdminFooter";
 const AdminLayout = () => {
     return(
         <div className="admin-layout">
-            <AdminNavbar/>
+            <AdminSidebar />
             <div className="admin-body">
                 <div className="admin-sidebar">
-                    <AdminSidebar />
+                    <AdminNavbar/>
                 </div>
                 <main className="admin-content">
                     <Outlet/>
