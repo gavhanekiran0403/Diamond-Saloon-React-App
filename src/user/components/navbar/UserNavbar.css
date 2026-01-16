@@ -1,0 +1,111 @@
+.navbar {
+  height: 70px;
+  background: #1f3c88;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+
+  /* ✅ Navbar always visible */
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+
+  /* ✅ Clean shadow */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+
+  /* ✅ dropdown won't cut */
+  overflow: visible;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.menu a:hover {
+  opacity: 0.85;
+}
+
+/* PROFILE */
+.profile-wrapper {
+  position: relative;
+}
+
+.profile-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.arrow {
+  font-size: 12px;
+}
+
+/* DROPDOWN */
+.dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: white;
+  color: black;
+  width: 180px;
+  border-radius: 6px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+
+  /* ✅ dropdown always on top */
+  z-index: 99999;
+}
+
+.dropdown div {
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dropdown div:hover {
+  background: #f1f1f1;
+}
+
+.dropdown .logout {
+  color: red;
+  font-weight: bold;
+}
+
+/* ✅ Responsive (Mobile Fix) */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 15px;
+  }
+
+  .menu {
+    gap: 12px;
+    font-size: 14px;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+}

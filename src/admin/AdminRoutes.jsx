@@ -16,10 +16,15 @@ import ProductForm from "./pages/product/ProductForm";
 import AppointmentList from "./pages/appointment/AppointmentList";
 import OrderList from "./pages/order/OrderList";
 import PaymentList from "./pages/payment/PaymentList";
+import AdminLogin from "./pages/login/AdminLogin";
 
 function AdminRoutes() {
     return(
         <Routes>
+
+          {/* ✅ ADMIN LOGIN */}
+          <Route path="login" element={<AdminLogin />} />
+
             {/* Admin Routes */}
             <Route element={<AdminLayout />}>
                 <Route index element={<AdminDashboard/>} />

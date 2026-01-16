@@ -1,0 +1,79 @@
+/* PAGE CENTER */
+.login-wrapper {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f6fb;
+}
+
+/* CARD */
+.login-card {
+  width: 900px;
+  height: 420px;
+  display: flex;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* LEFT PANEL */
+.login-left {
+  flex: 1;
+  background: linear-gradient(135deg, #8e44ad, #9b59b6);
+  padding: 40px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-left input {
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+}
+
+/* LOGIN BUTTON */
+.login-btn {
+  padding: 12px;
+  background: #f1c40f;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* RIGHT PANEL */
+.login-right {
+  flex: 1;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-right img {
+  width: 150px;
+  margin-bottom: 20px;
+}
+
+.admin-btn {
+  padding: 10px 25px;
+  background: #1f3c88;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .login-card {
+    flex-direction: column;
+    height: auto;
+  }
+}
