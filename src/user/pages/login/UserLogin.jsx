@@ -26,7 +26,8 @@ const UserLogin = () => {
 
   return (
     <>
-      {/* ✅ NAVBAR */}
+
+      {/* ✅ Navbar */}
       <UserNavbar />
 
       {/* ✅ LOGIN PAGE */}

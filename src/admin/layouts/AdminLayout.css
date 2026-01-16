@@ -1,45 +1,36 @@
-/* Root layout */
+:root {
+  --sidebar-width: 250px;
+  --navbar-height: 60px;
+  --footer-height: 50px;
+}
+
+/* Root Layout */
 .admin-layout {
+  min-height: 100vh;
+  background-color: #f4f6fb;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* ✅ Right Side Area */
+.admin-body {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background-color: #f5f6fa;
 }
 
-/* Body */
-.admin-body {
-  display: flex;
-  flex: 1;
-}
-
-/* Sidebar */
-.admin-sidebar {
-  width: 250px;
-  background-color: #1e1e2f;
-  color: #ffffff;
-  padding: 20px;
-}
-
-/* Main content */
+/* ✅ Main Content Scroll */
 .admin-content {
-  flex: 1;
-  padding: 20px;
-  background-color: #ffffff;
+  padding: 24px;
+  background-color: #f9fafb;
+
+  /* ✅ content starts after navbar */
+  margin-top: var(--navbar-height);
+
+  /* ✅ footer space */
+  padding-bottom: calc(var(--footer-height) + 20px);
+
+  /* ✅ full height */
+  min-height: calc(100vh - var(--navbar-height));
   overflow-y: auto;
-}
-
-/* Footer */
-.admin-layout footer {
-  margin-top: auto;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .admin-body {
-    flex-direction: column;
-  }
-
-  .admin-sidebar {
-    width: 100%;
-  }
 }

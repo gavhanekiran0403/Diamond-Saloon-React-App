@@ -1,10 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserNavbar from "../../../user/components/navbar/UserNavbar";
 import "../../../user/pages/login/UserLogin.css";   // ✅ Correct CSS path
+import { adminLogin } from "../../../services/LoginService";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleAdminLogin = async () => {
+
+    if (!email || !password) {
+      alert("Please enter email and password");
+      return;
+    }
+
+    try {
+      
+      const res = await adminLogin({
+        email: email.trim().toLowerCase(),
+        password: password.trim(),
+      })
+
+      localStorage.setItem("adminId", res.data.userId);
+      
+      console.log("Admin Login Success:", res.data);
+
+      alert("Admin login successfully...");
+      navigate("/admin/admin-dashboard");
+
+    } catch (error) {
+      console.log("Admin Login Error:", error);
+      alert("Invalid Admin Credentials!");
+    }
+  }; 
 
   return (
     <>
@@ -19,10 +50,26 @@ const AdminLogin = () => {
             <h2>Admin Login</h2>
             <p>Administrator access only.</p>
 
-            <input type="email" placeholder="Admin Email" />
-            <input type="password" placeholder="Password" />
+            <input 
+              type="email" 
+              placeholder="Admin Email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-            <button className="login-btn">Login</button>
+            <input 
+              type="password" 
+              placeholder="Password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <button 
+              className="login-btn"
+              onClick={handleAdminLogin}
+            >
+              Login
+            </button>
           </div>
 
           {/* RIGHT PANEL */}
