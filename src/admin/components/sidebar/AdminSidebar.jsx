@@ -51,6 +51,10 @@ function Sidebar() {
         </li>
 
         <li>
+          <NavLink to="/admin/timeslots">⏰ Time Slots</NavLink>
+        </li>
+        
+        <li>
           <NavLink to="/admin/reports">📈 Reports</NavLink>
         </li>
 

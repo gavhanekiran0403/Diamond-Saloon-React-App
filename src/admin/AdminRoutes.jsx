@@ -17,6 +17,7 @@ import AppointmentList from "./pages/appointment/AppointmentList";
 import OrderList from "./pages/order/OrderList";
 import PaymentList from "./pages/payment/PaymentList";
 import AdminLogin from "./pages/login/AdminLogin";
+import TimeSlotSettings from "./pages/timeslot/TimeSlotSettings";
 
 function AdminRoutes() {
     return(
@@ -52,6 +53,8 @@ function AdminRoutes() {
                 <Route path="/orders" element={<OrderList />}/>
 
                 <Route path="/payments" element={<PaymentList />}/>
+
+                <Route path="/timeslots" element={<TimeSlotSettings />} />
 
             </Route>
         </Routes>
