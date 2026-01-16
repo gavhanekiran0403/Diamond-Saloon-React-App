@@ -11,9 +11,7 @@ const UserNavbar = () => {
   // ✅ Clean Logout
   const logout = () => {
     localStorage.removeItem("user");
-
-    // ✅ go back to /user home after logout (safe)
-    navigate("/user", { replace: true });
+    navigate("/", { replace: true });   // Public Home
   };
 
   const handleMouseEnter = () => {
@@ -28,18 +26,16 @@ const UserNavbar = () => {
   };
 
   const toggleDropdown = () => {
-    setOpen((prev) => !prev);
+    setOpen(prev => !prev);
   };
 
   return (
     <header className="navbar">
-      <div className="logo" onClick={() => navigate("/user")}>
-        💎 Diamond Saloon
-      </div>
+      <div className="logo">💎 Diamond Saloon</div>
 
       <nav className="menu">
-        {/* ✅ user home */}
-        <Link to="/user">Home</Link>
+        {/* ✅ Home always goes to Public Home */}
+        <Link to="/">Home</Link>
 
         <Link to="/user/appointments">Appointments</Link>
         <Link to="/user/products">Products</Link>
@@ -56,7 +52,12 @@ const UserNavbar = () => {
 
             {open && (
               <div className="dropdown">
-                <div onClick={() => navigate("/user/profile")}>My Profile</div>
+
+                {/* ✅ Dashboard REMOVED */}
+
+                <div onClick={() => navigate("/user/profile")}>
+                  My Profile
+                </div>
 
                 <div onClick={() => navigate("/user/appointments")}>
                   My Appointments
@@ -65,6 +66,7 @@ const UserNavbar = () => {
                 <div className="logout" onClick={logout}>
                   Logout
                 </div>
+
               </div>
             )}
           </div>

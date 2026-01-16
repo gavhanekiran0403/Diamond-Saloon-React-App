@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import UserNavbar from "../../components/navbar/UserNavbar";
 import "./Home.css";
 
 const Home = () => {
@@ -18,6 +19,9 @@ const Home = () => {
 
   return (
     <>
+
+      {/* ✅ Navbar */}
+      <UserNavbar />
 
       {/* ✅ Home Content */}
       <div className="home-container">

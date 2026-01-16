@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userLogin } from "../../../services/LoginService";
+import UserNavbar from "../../components/navbar/UserNavbar";
 import "./UserLogin.css";
 
 const UserLogin = () => {
@@ -25,6 +26,9 @@ const UserLogin = () => {
 
   return (
     <>
+
+      {/* ✅ Navbar */}
+      <UserNavbar />
 
       {/* ✅ LOGIN PAGE */}
       <div className="login-wrapper">
