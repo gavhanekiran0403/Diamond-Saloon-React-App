@@ -7,6 +7,7 @@
   box-shadow: 0 8px 14px rgba(0, 0, 0, 0.1);
 }
 
+/* Title */
 .form-title {
   text-align: center;
   font-size: 22px;
@@ -15,12 +16,14 @@
   color: #111827;
 }
 
+/* Form */
 .package-form {
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
+/* Form Group */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -47,24 +50,36 @@
   border-color: #2563eb;
 }
 
-/* Services Checkbox List */
-.services-list {
+/* ===== Services Checkbox Section (Scoped) ===== */
+.package-form-page .services-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
-.service-option {
+.package-form-page .service-option {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.package-form-page .service-option input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.package-form-page .service-option label {
   font-size: 14px;
+  cursor: pointer;
+  color: #374151;
 }
 
 /* Buttons */
 .form-actions {
   display: flex;
   justify-content: center;
+  gap: 12px;
   margin-top: 10px;
 }
 

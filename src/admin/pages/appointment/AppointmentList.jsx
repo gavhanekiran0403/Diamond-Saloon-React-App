@@ -54,18 +54,18 @@ const AppointmentList = () => {
   });
 
   // ✅ Edit appointment
-  const handleEdit = (id) => {
-    navigate(`/admin/appointments/edit/${id}`);
-  };
+  // const handleEdit = (id) => {
+  //   navigate(`/admin/appointments/edit/${id}`);
+  // };
 
   // ✅ Delete appointment
-  const handleDelete = (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete?");
-    if (confirmDelete) {
-      alert(`Appointment Deleted: ${id}`);
-      // later: call API delete here
-    }
-  };
+  // const handleDelete = (id) => {
+  //   const confirmDelete = window.confirm("Are you sure you want to delete?");
+  //   if (confirmDelete) {
+  //     alert(`Appointment Deleted: ${id}`);
+  //     // later: call API delete here
+  //   }
+  // };
 
   // ✅ Status badge class
   const getStatusClass = (status) => {
@@ -83,19 +83,19 @@ const AppointmentList = () => {
 
   return (
     <div className="appointment-page">
-      <div className="top-action">
+      <div className="appointment-top-action">
         {/* Add Appointment */}
         <button
-          className="add-btn"
+          className="appointment-add-btn"
           onClick={() => navigate(`/admin/appointments/add`)}
         >
           + Add Appointment
         </button>
 
         {/* Filters */}
-        <div className="filter-bar">
+        <div className="appointment-filter-bar">
           {/* Status Filter */}
-          <div className="filter-item">
+          <div className="appointment-filter-item">
             <label>Status:</label>
             <select
               value={statusFilter}
@@ -109,7 +109,7 @@ const AppointmentList = () => {
           </div>
 
           {/* ✅ Date Filter */}
-          <div className="filter-item">
+          <div className="appointment-filter-item">
             <label>Date:</label>
             <input
               type="date"
@@ -119,7 +119,7 @@ const AppointmentList = () => {
           </div>
 
           {/* Reset Button */}
-          <button className="reset-btn" onClick={resetFilters}>
+          <button className="appointment-reset-btn" onClick={resetFilters}>
             Reset
           </button>
         </div>
@@ -129,7 +129,7 @@ const AppointmentList = () => {
 
       <div className="appointment-table-wrapper">
         {filteredAppointments.length === 0 ? (
-          <p className="no-data">No appointments found.</p>
+          <p className="appointment-no-data">No appointments found.</p>
         ) : (
           <table className="appointment-table">
             <thead>
@@ -139,11 +139,10 @@ const AppointmentList = () => {
                 <th>User ID</th>
                 <th>Service ID</th>
                 <th>Package ID</th>
-                <th>Staff ID</th>
                 <th>Date</th>
                 <th>Time Slot</th>
                 <th>Status</th>
-                <th>Action</th>
+                {/* <th>Action</th> */}
               </tr>
             </thead>
 
@@ -151,29 +150,28 @@ const AppointmentList = () => {
               {filteredAppointments.map((apt, index) => (
                 <tr key={apt._id}>
                   <td>{index + 1}</td>
-                  <td className="id-cell">{apt._id}</td>
+                  <td className="appointment-id-cell">{apt._id}</td>
                   <td>{apt.userId}</td>
                   <td>{apt.serviceId}</td>
                   <td>{apt.packageId}</td>
-                  <td>{apt.staffId}</td>
                   <td>{apt.appointmentDate}</td>
                   <td>{apt.timeSlot}</td>
                   <td>
-                    <span className={`status-badge ${getStatusClass(apt.status)}`}>
+                    <span className={`appointment-status-badge ${getStatusClass(apt.status)}`}>
                       {apt.status}
                     </span>
                   </td>
-                  <td className="action-cell">
-                    <button className="edit-btn" onClick={() => handleEdit(apt._id)}>
+                  {/* <td className="appointment-action-cell">
+                    <button className="appointment-edit-btn" onClick={() => handleEdit(apt._id)}>
                       Edit
                     </button>
                     <button
-                      className="delete-btn"
+                      className="appointment-delete-btn"
                       onClick={() => handleDelete(apt._id)}
                     >
                       Delete
                     </button>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

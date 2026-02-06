@@ -7,14 +7,16 @@
 }
 
 /* Top Action Bar */
-.top-action {
+.order-top-action {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-bottom: 20px;
+  gap: 20px; 
 }
 
 /* Filter Bar */
-.filter-bar {
+.order-filter-bar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -23,21 +25,21 @@
 }
 
 /* Filter Item */
-.filter-item {
+.order-filter-item {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.filter-item label {
+.order-filter-item label {
   font-size: 14px;
   font-weight: 700;
   color: #374151;
 }
 
 /* Inputs */
-.filter-item input,
-.filter-item select {
+.order-filter-item input,
+.order-filter-item select {
   padding: 8px 14px;
   font-size: 14px;
   border-radius: 8px;
@@ -45,13 +47,13 @@
   outline: none;
 }
 
-.filter-item input:focus,
-.filter-item select:focus {
+.order-filter-item input:focus,
+.order-filter-item select:focus {
   border-color: #2563eb;
 }
 
 /* Reset Button */
-.reset-btn {
+.order-reset-btn {
   background-color: #f3f4f6;
   border: 1px solid #d1d5db;
   padding: 8px 16px;
@@ -62,7 +64,7 @@
   color: #374151;
 }
 
-.reset-btn:hover {
+.order-reset-btn:hover {
   background-color: #e5e7eb;
 }
 
@@ -120,13 +122,13 @@
 }
 
 /* Order ID */
-.id-cell {
+.order-id-cell {
   font-weight: 800;
   color: #2563eb;
 }
 
 /* Status Badge */
-.status-badge {
+.order-status-badge {
   padding: 5px 12px;
   border-radius: 16px;
   font-size: 12px;
@@ -136,23 +138,55 @@
 }
 
 /* Status Colors */
-.status-pending {
+.order-status-pending {
   background-color: #fef3c7;
   color: #92400e;
 }
 
-.status-completed {
+.order-status-completed {
   background-color: #dcfce7;
   color: #166534;
 }
 
-.status-cancelled {
+.order-status-cancelled {
   background-color: #fee2e2;
   color: #b91c1c;
 }
 
+.order-view-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.order-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.order-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  width: 400px;
+}
+
+.order-close-btn {
+  margin-top: 10px;
+}
+
 /* No Data */
-.no-data {
+.order-no-data {
   text-align: center;
   font-size: 15px;
   font-weight: 700;
@@ -162,18 +196,23 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .filter-bar {
+  .order-top-action {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .order-filter-bar {
     flex-direction: column;
     width: 100%;
   }
 
-  .filter-item {
+  .order-filter-item {
     width: 100%;
     justify-content: space-between;
   }
 
-  .filter-item input,
-  .filter-item select {
+  .order-filter-item input,
+  .order-filter-item select {
     width: 60%;
   }
 }

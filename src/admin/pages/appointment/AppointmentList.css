@@ -7,7 +7,7 @@
 }
 
 /* Top Action Bar */
-.top-action {
+.appointment-top-action {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,19 +17,19 @@
 }
 
 /* Filter Bar */
-.filter-bar {
+.appointment-filter-bar {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.filter-bar label {
+.appointment-filter-bar label {
   font-size: 15px;
   font-weight: 600;
   color: #374151;
 }
 
-.filter-bar select {
+.appointment-filter-bar select {
   padding: 8px 14px;
   font-size: 14px;
   border-radius: 8px;
@@ -37,20 +37,20 @@
   cursor: pointer;
 }
 
-.filter-bar select:focus {
+.appointment-filter-bar select:focus {
   outline: none;
   border-color: #2563eb;
 }
 
 /* Filter Item */
-.filter-item {
+.appointment-filter-item {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 /* Date input */
-.filter-item input[type="date"] {
+.appointment-filter-item input[type="date"] {
   padding: 8px 14px;
   font-size: 14px;
   border-radius: 8px;
@@ -58,13 +58,13 @@
   cursor: pointer;
 }
 
-.filter-item input[type="date"]:focus {
+.appointment-filter-item input[type="date"]:focus {
   outline: none;
   border-color: #2563eb;
 }
 
 /* Reset Button */
-.reset-btn {
+.appointment-reset-btn {
   background-color: #f3f4f6;
   border: 1px solid #d1d5db;
   padding: 8px 16px;
@@ -75,12 +75,12 @@
   color: #374151;
 }
 
-.reset-btn:hover {
+.appointment-reset-btn:hover {
   background-color: #e5e7eb;
 }
 
 /* Add Button */
-.add-btn {
+.appointment-add-btn {
   background-color: #16a34a;
   color: #ffffff;
   border: none;
@@ -91,7 +91,7 @@
   cursor: pointer;
 }
 
-.add-btn:hover {
+.appointment-add-btn:hover {
   background-color: #15803d;
 }
 
@@ -151,13 +151,13 @@
 }
 
 /* Appointment ID cell */
-.id-cell {
+.appointment-id-cell {
   font-weight: 700;
   color: #2563eb;
 }
 
 /* Status Badge */
-.status-badge {
+.appointment-status-badge {
   padding: 5px 12px;
   border-radius: 16px;
   font-size: 12px;
@@ -185,14 +185,14 @@
 }
 
 /* Action Buttons */
-.action-cell {
+.appointment-action-cell {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
 /* Edit Button */
-.edit-btn {
+.appointment-edit-btn {
   background-color: #2563eb;
   color: #ffffff;
   border: none;
@@ -203,12 +203,12 @@
   cursor: pointer;
 }
 
-.edit-btn:hover {
+.appointment-edit-btn:hover {
   background-color: #1d4ed8;
 }
 
 /* Delete Button */
-.delete-btn {
+.appointment-delete-btn {
   background-color: #dc2626;
   color: #ffffff;
   border: none;
@@ -219,12 +219,12 @@
   cursor: pointer;
 }
 
-.delete-btn:hover {
+.appointment-delete-btn:hover {
   background-color: #b91c1c;
 }
 
 /* No Data */
-.no-data {
+.appointment-no-data {
   text-align: center;
   font-size: 15px;
   font-weight: 600;
@@ -234,17 +234,27 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .top-action {
+  .appointment-top-action {
     flex-direction: column;
     align-items: center;
   }
 
-  .filter-bar {
+  .appointment-filter-bar {
     flex-direction: column;
-    align-items: center;
+    width: 100%;
   }
 
-  .action-cell {
+  .appointment-filter-item {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .appointment-filter-item input,
+  .appointment-filter-item select {
+    width: 60%;
+  }
+
+  .appointment-action-cell {
     flex-direction: column;
     gap: 8px;
   }

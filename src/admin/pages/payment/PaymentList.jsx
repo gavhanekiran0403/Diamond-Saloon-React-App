@@ -81,10 +81,10 @@ const PaymentList = () => {
   return (
     <div className="payment-page">
       {/* ✅ Top Action - Filters */}
-      <div className="top-action">
-        <div className="filter-bar">
+      <div className="payment-top-action">
+        <div className="payment-filter-bar">
           {/* Payment ID Filter */}
-          <div className="filter-item">
+          <div className="payment-filter-item">
             <label>Payment ID:</label>
             <input
               type="text"
@@ -95,7 +95,7 @@ const PaymentList = () => {
           </div>
 
           {/* Appointment ID Filter */}
-          <div className="filter-item">
+          <div className="payment-filter-item">
             <label>Appointment ID:</label>
             <input
               type="text"
@@ -106,7 +106,7 @@ const PaymentList = () => {
           </div>
 
           {/* Order ID Filter */}
-          <div className="filter-item">
+          <div className="payment-filter-item">
             <label>Order ID:</label>
             <input
               type="text"
@@ -117,7 +117,7 @@ const PaymentList = () => {
           </div>
 
           {/* Status Filter */}
-          <div className="filter-item">
+          <div className="payment-filter-item">
             <label>Status:</label>
             <select
               value={statusFilter}
@@ -131,7 +131,7 @@ const PaymentList = () => {
           </div>
 
           {/* Reset Button */}
-          <button className="reset-btn" onClick={resetFilters}>
+          <button className="payment-reset-btn" onClick={resetFilters}>
             Reset
           </button>
         </div>
@@ -141,7 +141,7 @@ const PaymentList = () => {
 
       <div className="payment-table-wrapper">
         {filteredPayments.length === 0 ? (
-          <p className="no-data">No payments found.</p>
+          <p className="payment-no-data">No payments found.</p>
         ) : (
           <table className="payment-table">
             <thead>
@@ -169,7 +169,7 @@ const PaymentList = () => {
 
                   <td>
                     <span
-                      className={`status-badge status-${payment.status.toLowerCase()}`}
+                      className={`payment-status-badge payment-status-${payment.status.toLowerCase()}`}
                     >
                       {payment.status}
                     </span>

@@ -1,14 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./CategoryForm.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { createProductCategory, getProductCategoryById, updateProductCategory } from "../../../services/ProductCategoryService";
 
 const CategoryForm = () => {
   const navigate = useNavigate();
+  const {categoryId} = useParams();
 
   const [formData, setFormData] = useState({
     categoryName: "",
     description: "",
   });
+
+  useEffect(() => {
+
+    const loadCategory = async () => {
+
+      try {
+        const res = await getProductCategoryById(categoryId);
+        setFormData(res.data);
+      } catch (error) {
+        alert("❌ Failed to load category data!");
+        console.log("Error loading category", error);
+      }
+    };
+
+    if(categoryId){
+      loadCategory();
+    }
+
+  }, [categoryId]);
 
   // ✅ input change handler
   const handleChange = (e) => {
@@ -26,24 +47,27 @@ const CategoryForm = () => {
 
     console.log("Category Data:", formData);
 
-    // ✅ Here you can call API later
-    // axios.post("your-api-url", formData)
-
-    alert("Category Added Successfully!");
-
-    // ✅ clear form after submit
-    setFormData({
-      categoryName: "",
-      description: "",
-    });
-
-    // ✅ redirect to category list page
-    navigate("/admin/categories");
+    try {
+      if(categoryId) {
+        updateProductCategory(categoryId, formData);
+        alert("✅ Category updated Successfully!");
+      }else {
+        createProductCategory(formData);
+        alert("✅ Category Added Successfully!");
+      }
+      navigate("/admin/categories");
+    } catch (error) {
+      alert("❌ Failed to save category");
+      console.log("Save error", error);
+    }
+    
   };
 
   return (
     <div className="category-form-page">
-      <h2 className="form-title">Add Category</h2>
+      <h2 className="form-title">
+        {categoryId ? "Edit Category" : "Add Category"}
+      </h2>
 
       <form className="category-form" onSubmit={handleSubmit}>
         
@@ -76,7 +100,7 @@ const CategoryForm = () => {
         {/* buttons */}
         <div className="form-actions">
           <button type="submit" className="save-btn">
-            Save
+            {categoryId ? "Edit" : "Save"}
           </button>
 
           <button

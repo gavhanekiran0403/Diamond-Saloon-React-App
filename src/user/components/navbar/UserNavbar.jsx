@@ -30,7 +30,7 @@ const UserNavbar = () => {
   };
 
   return (
-    <header className="navbar">
+    <header className="user-navbar">
       <div className="logo">💎 Diamond Saloon</div>
 
       <nav className="menu">

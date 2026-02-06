@@ -7,7 +7,7 @@
 }
 
 /* Top Action Bar */
-.top-action {
+.package-top-action {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,19 +16,19 @@
 }
 
 /* Filter Bar */
-.filter-bar {
+.package-filter-bar {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.filter-bar label {
+.package-filter-bar label {
   font-size: 15px;
   font-weight: 600;
   color: #374151;
 }
 
-.filter-bar select {
+.package-filter-bar select {
   padding: 8px 14px;
   font-size: 14px;
   border-radius: 8px;
@@ -36,13 +36,13 @@
   cursor: pointer;
 }
 
-.filter-bar select:focus {
+.package-filter-bar select:focus {
   outline: none;
   border-color: #2563eb;
 }
 
 /* Add Button */
-.add-btn {
+.package-add-btn {
   background-color: #16a34a;
   color: #ffffff;
   border: none;
@@ -53,7 +53,7 @@
   cursor: pointer;
 }
 
-.add-btn:hover {
+.package-add-btn:hover {
   background-color: #15803d;
 }
 
@@ -112,13 +112,13 @@
 }
 
 /* Services Badges */
-.services-cell {
+.package-services-cell {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 
-.service-badge {
+.package-service-badge {
   background-color: #e0f2fe;
   color: #0369a1;
   padding: 4px 10px;
@@ -128,13 +128,65 @@
   white-space: nowrap;
 }
 
-.service-badge:hover {
+.package-service-badge:hover {
   box-shadow: 0 2px 6px rgba(3, 105, 161, 0.25);
+}
+
+/* Action Buttons */
+.package-action-cell {
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Edit Button */
+.package-edit-btn {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.package-edit-btn:hover {
+  background-color: #1d4ed8;
+}
+
+/* Delete Button */
+.package-delete-btn {
+  background-color: #dc2626;
+  color: #ffffff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.package-delete-btn:hover {
+  background-color: #b91c1c;
+}
+
+.package-action-cell button + button {
+  margin-left: 8px;
+}
+
+/* No Data */
+.package-no-data {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .top-action {
+  .package-top-action {
     flex-direction: column;
     align-items: center;
   }

@@ -1,50 +1,80 @@
 import React, { useState } from "react";
 import "./OrderList.css";
+import { useNavigate } from "react-router-dom";
 
 const OrderList = () => {
-  // ✅ Dummy Orders Data
-  const ordersData = [
-    {
-      orderId: "ORD001",
-      userId: "USER001",
-      orderDate: "2026-01-13",
-      status: "PENDING",
-      totalAmount: 1299,
-      paymentId: "PAY101",
-    },
-    {
-      orderId: "ORD002",
-      userId: "USER002",
-      orderDate: "2026-01-14",
-      status: "COMPLETED",
-      totalAmount: 899,
-      paymentId: "PAY102",
-    },
-    {
-      orderId: "ORD003",
-      userId: "USER003",
-      orderDate: "2026-01-15",
-      status: "CANCELLED",
-      totalAmount: 499,
-      paymentId: "PAY103",
-    },
-    {
-      orderId: "ORD004",
-      userId: "USER001",
-      orderDate: "2026-01-15",
-      status: "COMPLETED",
-      totalAmount: 2499,
-      paymentId: "PAY104",
-    },
-  ];
 
-  // ✅ Filters State
+  // ✅ Salon & Beauty Orders Data
+const ordersData = [
+  {
+    orderId: "ORD001",
+    userId: "USER001",
+    orderDate: "2026-01-13",
+    status: "PENDING",
+    totalAmount: 1899,
+    paymentId: "PAY101",
+    products: [
+      { name: "Hair Spa Cream", qty: 1, price: 699 },
+      { name: "Keratin Shampoo", qty: 2, price: 600 },
+    ],
+  },
+  {
+    orderId: "ORD002",
+    userId: "USER002",
+    orderDate: "2026-01-14",
+    status: "COMPLETED",
+    totalAmount: 1499,
+    paymentId: "PAY102",
+    products: [
+      { name: "Facial Kit (Gold)", qty: 1, price: 999 },
+      { name: "Aloe Vera Gel", qty: 1, price: 500 },
+    ],
+  },
+  {
+    orderId: "ORD003",
+    userId: "USER003",
+    orderDate: "2026-01-15",
+    status: "CANCELLED",
+    totalAmount: 799,
+    paymentId: "PAY103",
+    products: [
+      { name: "Hair Dryer Service", qty: 1, price: 799 },
+    ],
+  },
+  {
+    orderId: "ORD004",
+    userId: "USER004",
+    orderDate: "2026-01-16",
+    status: "COMPLETED",
+    totalAmount: 2599,
+    paymentId: "PAY104",
+    products: [
+      { name: "Bridal Makeup Package", qty: 1, price: 1999 },
+      { name: "Nail Art Service", qty: 1, price: 600 },
+    ],
+  },
+  {
+    orderId: "ORD005",
+    userId: "USER005",
+    orderDate: "2026-01-17",
+    status: "COMPLETED",
+    totalAmount: 1299,
+    paymentId: "PAY105",
+    products: [
+      { name: "Organic Face Wash", qty: 2, price: 350 },
+      { name: "Skin Glow Serum", qty: 1, price: 599 },
+    ],
+  },
+];
+
+  const navigate = useNavigate();
+  // ================= STATES =================
   const [orderIdFilter, setOrderIdFilter] = useState("");
   const [userIdFilter, setUserIdFilter] = useState("");
   const [orderDateFilter, setOrderDateFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
 
-  // ✅ Filter Logic
+  // ================= FILTER LOGIC =================
   const filteredOrders = ordersData.filter((order) => {
     const matchOrderId =
       orderIdFilter === "" ||
@@ -57,12 +87,13 @@ const OrderList = () => {
     const matchOrderDate =
       orderDateFilter === "" || order.orderDate === orderDateFilter;
 
-    const matchStatus = statusFilter === "ALL" || order.status === statusFilter;
+    const matchStatus =
+      statusFilter === "ALL" || order.status === statusFilter;
 
     return matchOrderId && matchUserId && matchOrderDate && matchStatus;
   });
 
-  // ✅ Reset Filters
+  // ================= RESET =================
   const resetFilters = () => {
     setOrderIdFilter("");
     setUserIdFilter("");
@@ -72,33 +103,30 @@ const OrderList = () => {
 
   return (
     <div className="order-page">
-      {/* ✅ Top Action - Filters */}
-      <div className="top-action">
-        <div className="filter-bar">
-          {/* Order ID Filter */}
-          <div className="filter-item">
+
+      {/* ✅ Top Action - Filters (UNCHANGED) */}
+      <div className="order-top-action">
+        <div className="order-filter-bar">
+
+          <div className="order-filter-item">
             <label>Order ID:</label>
             <input
               type="text"
-              placeholder="Search Order ID"
               value={orderIdFilter}
               onChange={(e) => setOrderIdFilter(e.target.value)}
             />
           </div>
 
-          {/* User ID Filter */}
-          <div className="filter-item">
+          <div className="order-filter-item">
             <label>User ID:</label>
             <input
               type="text"
-              placeholder="Search User ID"
               value={userIdFilter}
               onChange={(e) => setUserIdFilter(e.target.value)}
             />
           </div>
 
-          {/* Order Date Filter */}
-          <div className="filter-item">
+          <div className="order-filter-item">
             <label>Order Date:</label>
             <input
               type="date"
@@ -107,8 +135,7 @@ const OrderList = () => {
             />
           </div>
 
-          {/* Status Filter */}
-          <div className="filter-item">
+          <div className="order-filter-item">
             <label>Status:</label>
             <select
               value={statusFilter}
@@ -121,8 +148,7 @@ const OrderList = () => {
             </select>
           </div>
 
-          {/* Reset Button */}
-          <button className="reset-btn" onClick={resetFilters}>
+          <button className="order-reset-btn" onClick={resetFilters}>
             Reset
           </button>
         </div>
@@ -130,9 +156,10 @@ const OrderList = () => {
 
       <h1 className="order-title">Order List</h1>
 
+      {/* ================= TABLE ================= */}
       <div className="order-table-wrapper">
         {filteredOrders.length === 0 ? (
-          <p className="no-data">No orders found.</p>
+          <p className="order-no-data">No orders found.</p>
         ) : (
           <table className="order-table">
             <thead>
@@ -144,6 +171,9 @@ const OrderList = () => {
                 <th>Order Status</th>
                 <th>Total Amount (₹)</th>
                 <th>Payment ID</th>
+
+                {/* ✅ NEW ACTION COLUMN */}
+                <th>Action</th>
               </tr>
             </thead>
 
@@ -151,18 +181,28 @@ const OrderList = () => {
               {filteredOrders.map((order, index) => (
                 <tr key={order.orderId}>
                   <td>{index + 1}</td>
-                  <td className="id-cell">{order.orderId}</td>
+                  <td>{order.orderId}</td>
                   <td>{order.userId}</td>
                   <td>{order.orderDate}</td>
 
                   <td>
-                    <span className={`status-badge status-${order.status.toLowerCase()}`}>
+                    <span className={`order-status-badge order-status-${order.status.toLowerCase()}`}>
                       {order.status}
                     </span>
                   </td>
 
                   <td>{order.totalAmount}</td>
                   <td>{order.paymentId}</td>
+
+                  {/* ✅ VIEW BUTTON */}
+                  <td>
+                    <button
+                      className="order-view-btn"
+                      onClick={() => navigate(`/admin/orders/${order.orderId}`, { state: order })}
+                    >
+                      View
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

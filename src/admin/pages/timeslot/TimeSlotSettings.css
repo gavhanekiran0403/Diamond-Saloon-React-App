@@ -26,7 +26,7 @@
   border-radius: 2px;
 }
 
-/* Card */
+/* ✅ Card */
 .card {
   background: #f9fafb;
   border: 1px solid #e5e7eb;
@@ -42,18 +42,21 @@
   font-weight: 800;
 }
 
-/* Form Row */
+/* ✅ Form Row */
 .form-row {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  align-items: end;
+  align-items: flex-end; /* ✅ FIXED */
 }
 
+/* ✅ Form Group */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 180px;
+  flex: 1;
 }
 
 .form-group label {
@@ -64,10 +67,11 @@
 
 .form-group input,
 .form-group select {
-  padding: 9px 12px;
+  padding: 10px 12px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
   font-size: 14px;
+  height: 40px;
 }
 
 .form-group input:focus,
@@ -76,15 +80,31 @@
   border-color: #2563eb;
 }
 
-/* Checkbox */
-.checkbox-group {
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  padding-bottom: 6px;
+/* ✅ Checkbox */
+/* ✅ Mark OFF group same width like inputs */
+.markoff-group {
+  min-width: 180px;
+  flex: 1;
 }
 
-/* Buttons */
+/* ✅ Center checkbox like an input height */
+.markoff-center {
+  height: 40px; /* ✅ same height like input/select */
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 12px;
+  align-items: center;
+}
+
+/* ✅ Make checkbox bigger and clear */
+.markoff-center input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #dc2626; /* ✅ visible red */
+  cursor: pointer;
+}
+
+/* ✅ Buttons */
 .btn-generate {
   background: #2563eb;
   border: none;
@@ -93,6 +113,8 @@
   border-radius: 10px;
   font-weight: 800;
   cursor: pointer;
+  height: 40px;
+  width: 100%;
 }
 
 .btn-generate:hover {
@@ -107,6 +129,8 @@
   border-radius: 10px;
   font-weight: 800;
   cursor: pointer;
+  height: 40px;
+  width: 100%;
 }
 
 .btn-save:hover {
@@ -127,7 +151,7 @@
   background: #b91c1c;
 }
 
-/* Slot Grid */
+/* ✅ Slot Grid */
 .slot-grid {
   display: flex;
   flex-wrap: wrap;
@@ -144,7 +168,7 @@
   font-weight: 800;
 }
 
-/* Override List */
+/* ✅ Override List */
 .override-list {
   margin-top: 14px;
 }
