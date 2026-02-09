@@ -1,26 +1,52 @@
-/* Root layout */
 .user-layout {
+  width: 100vw;          /* ✅ FORCE FULL SCREEN */
+  margin: 0;             /* ✅ REMOVE ANY SHIFT */
+  padding: 0;            /* ✅ REMOVE ANY SHIFT */
+
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background-color: #f9f9f9;
 }
 
-/* Main content */
 .user-content {
   flex: 1;
   padding: 20px;
   background-color: #ffffff;
 }
 
-/* Footer stays at bottom */
 .user-layout footer {
   margin-top: auto;
 }
 
-/* Responsive spacing */
+/* 🔥 Back Button Styling */
+.back-wrapper {
+  padding: 15px 80px 0 80px;
+  background-color: #ffffff;
+}
+
+.back-btn {
+  background: #0a3d62;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn:hover {
+  background: #083152;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .user-content {
     padding: 12px;
+  }
+
+  .back-wrapper {
+    padding: 10px 20px 0 20px;
   }
 }

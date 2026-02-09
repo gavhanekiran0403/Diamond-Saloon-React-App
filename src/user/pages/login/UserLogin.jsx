@@ -8,25 +8,41 @@ const UserLogin = () => {
   const navigate = useNavigate();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+    if (!phone || !password) {
+      alert("Please enter phone & password");
+      return;
+    }
+
     try {
-      const payload = { phone, password };
+      setLoading(true);
+
+      const payload = {
+        phone: phone.trim(),
+        password: password.trim(),
+      };
+
       const res = await userLogin(payload);
 
+      // ✅ Save user in localStorage
       localStorage.setItem("user", JSON.stringify(res.data));
 
-      // ✅ Redirect to Home page after login
+      // ✅ Redirect to USER DASHBOARD (VERY IMPORTANT)
       navigate("/", { replace: true });
 
+
     } catch (err) {
+      console.error("Login error:", err);
       alert("Invalid credentials ❌");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
-
       {/* ✅ Navbar */}
       <UserNavbar />
 
@@ -40,6 +56,7 @@ const UserLogin = () => {
             <p>Please login to continue</p>
 
             <input
+              type="text"
               placeholder="Phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -52,9 +69,24 @@ const UserLogin = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button className="login-btn" onClick={handleLogin}>
-              Login
+            <button
+              className="login-btn"
+              onClick={handleLogin}
+              disabled={loading}
+            >
+              {loading ? "Logging in..." : "Login"}
             </button>
+
+            {/* ✅ SIGN UP LINK */}
+            <p style={{ marginTop: "15px" }}>
+              New user?{" "}
+              <span
+                style={{ color: "#ffd700", cursor: "pointer", fontWeight: "bold" }}
+                onClick={() => navigate("/user/register")}
+              >
+                Create Account
+              </span>
+            </p>
           </div>
 
           {/* ✅ RIGHT ADMIN LOGIN */}

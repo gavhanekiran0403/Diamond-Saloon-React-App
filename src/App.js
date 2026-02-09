@@ -1,20 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LandingPage from "./user/pages/landing/LandingPage";
 import UserRoutes from "./user/UserRoutes";
 import AdminRoutes from "./admin/AdminRoutes";
-import Home from "./user/pages/dashboard/Home";   // ✅ import home
+import UserLayout from "./user/layouts/UserLayout";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
 
-        {/* ✅ Public Home */}
-        <Route path="/" element={<Home />} />
+        {/* Landing Page WITH Navbar */}
+        <Route element={<UserLayout />}>
+          <Route path="/" element={<LandingPage />} />
+        </Route>
 
-        {/* ✅ User Module */}
+        {/* User Routes */}
         <Route path="/user/*" element={<UserRoutes />} />
 
-        {/* ✅ Admin Module */}
+        {/* Admin Routes */}
         <Route path="/admin/*" element={<AdminRoutes />} />
 
       </Routes>

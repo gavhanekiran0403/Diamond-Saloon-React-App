@@ -1,0 +1,109 @@
+.cart-container {
+  padding: 50px 80px;
+  background: #f5f7fa;
+  min-height: 80vh;
+}
+
+.cart-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #0a3d62;
+}
+
+/* 🧾 Cart Item Card */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 20px 25px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+
+.cart-item:hover {
+  transform: translateY(-3px);
+}
+
+.cart-info h4 {
+  margin-bottom: 6px;
+  font-size: 18px;
+}
+
+.cart-price {
+  color: #27ae60;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* ➕➖ Quantity */
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.qty-btn {
+  padding: 6px 12px;
+  border: none;
+  background: #0a3d62;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.qty-btn:hover {
+  background: #082c45;
+}
+
+/* ❌ Remove */
+.remove-btn {
+  background: #e74c3c;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.remove-btn:hover {
+  background: #c0392b;
+}
+
+/* 💰 Total box */
+.total-box {
+  margin-top: 30px;
+  padding: 22px 25px;
+  background: #ffffff;
+  border-radius: 10px;
+  text-align: right;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  font-size: 20px;
+  font-weight: bold;
+  color: #0a3d62;
+}
+
+/* 🛒 Checkout button */
+.checkout-btn {
+  margin-top: 20px;
+  padding: 14px 35px;
+  background: #0a3d62;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  float: right;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.checkout-btn:hover {
+  background: #082c45;
+  transform: translateY(-2px);
+}

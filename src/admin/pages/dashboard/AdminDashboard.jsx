@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./AdminDashboard.css";
+import { getAllUsers } from "../../../services/UserService";
 
 const Dashboard = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await getAllUsers();
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
   return (
     <div className="dashboard">
       {/* Page Title */}
@@ -29,7 +45,7 @@ const Dashboard = () => {
 
         <div className="stat-card">
           <h3>👥 Customers</h3>
-          <p className="stat-number">540</p>
+          <p className="stat-number">{users.length}</p>
           <span className="stat-label">Total</span>
         </div>
       </div>

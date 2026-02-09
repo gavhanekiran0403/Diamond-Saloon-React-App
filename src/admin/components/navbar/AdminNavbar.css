@@ -1,4 +1,4 @@
-/* ================= NAVBAR ================= */
+/* ================= Navbar ================= */
 .admin-navbar {
   height: 60px;
   background: #fff;
@@ -19,6 +19,13 @@
 .admin-navbar.full {
   left: 0;
   width: 100%;
+}
+
+/* Right Section */
+.admin-navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 

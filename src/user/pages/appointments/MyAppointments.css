@@ -1,0 +1,64 @@
+/* Page Container */
+.my-appointments-page {
+  padding: 40px;
+}
+
+/* Title */
+.my-appointments-page h2 {
+  margin-bottom: 20px;
+  color: #1f3c88;
+}
+
+/* Empty Message Box */
+.empty-box {
+  margin-top: 80px;
+  padding: 40px;
+  text-align: center;
+  background: #f4f6fb;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.empty-box h3 {
+  color: #1f3c88;
+  margin-bottom: 10px;
+}
+
+.empty-box p {
+  color: #555;
+}
+
+/* Table */
+.my-appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  background: white;
+}
+
+.my-appointments-table th,
+.my-appointments-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.my-appointments-table th {
+  background: #1f3c88;
+  color: white;
+}
+
+.my-appointments-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .my-appointments-table {
+    font-size: 13px;
+  }
+
+  .my-appointments-page {
+    padding: 20px;
+  }
+}
