@@ -88,7 +88,7 @@ const StaffList = () => {
                             <th>Staff Name</th>
                             <th>Phone Number</th>
                             <th>Specialization</th>
-                            <th>Availability status</th>
+                            {/* <th>Availability status</th> */}
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -100,7 +100,7 @@ const StaffList = () => {
                                 <td>{st.staffName}</td>
                                 <td>{st.phone}</td>
                                 <td>{st.specialization}</td>
-                                <td>
+                                {/* <td>
                                     <span
                                         className={`staff-status-badge ${
                                             st.isAvailable? "available" : "unavailable"
@@ -108,7 +108,7 @@ const StaffList = () => {
                                     >
                                         {st.isAvailable ? "Available" : "Unavailable"}
                                     </span>
-                                </td>
+                                </td> */}
                                 <td className="staff-action-cell">
                                     
                                     <button

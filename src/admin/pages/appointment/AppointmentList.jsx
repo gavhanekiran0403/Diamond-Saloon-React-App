@@ -1,54 +1,75 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AppointmentList.css";
+import { getAllAppointments } from "../../../services/AppointmentService";
 
 const AppointmentList = () => {
   const navigate = useNavigate();
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // ✅ Dummy appointment data
-  const appointmentsData = [
-    {
-      _id: "65fa101a1",
-      userId: "USER001",
-      serviceId: "SERVICE101",
-      packageId: "PACKAGE201",
-      staffId: "STAFF501",
-      appointmentDate: "2026-01-13",
-      timeSlot: "10:00 AM - 11:00 AM",
-      status: "BOOKED",
-    },
-    {
-      _id: "65fa101a2",
-      userId: "USER002",
-      serviceId: "SERVICE102",
-      packageId: "PACKAGE202",
-      staffId: "STAFF502",
-      appointmentDate: "2026-01-14",
-      timeSlot: "02:00 PM - 03:00 PM",
-      status: "COMPLETED",
-    },
-    {
-      _id: "65fa101a3",
-      userId: "USER003",
-      serviceId: "SERVICE103",
-      packageId: "PACKAGE203",
-      staffId: "STAFF503",
-      appointmentDate: "2026-01-15",
-      timeSlot: "05:00 PM - 06:00 PM",
-      status: "CANCELLED",
-    },
-  ];
+  // const appointmentsData = [
+  //   {
+  //     _id: "65fa101a1",
+  //     userId: "USER001",
+  //     serviceId: "SERVICE101",
+  //     packageId: "PACKAGE201",
+  //     staffId: "STAFF501",
+  //     appointmentDate: "2026-01-13",
+  //     timeSlot: "10:00 AM - 11:00 AM",
+  //     status: "BOOKED",
+  //   },
+  //   {
+  //     _id: "65fa101a2",
+  //     userId: "USER002",
+  //     serviceId: "SERVICE102",
+  //     packageId: "PACKAGE202",
+  //     staffId: "STAFF502",
+  //     appointmentDate: "2026-01-14",
+  //     timeSlot: "02:00 PM - 03:00 PM",
+  //     status: "COMPLETED",
+  //   },
+  //   {
+  //     _id: "65fa101a3",
+  //     userId: "USER003",
+  //     serviceId: "SERVICE103",
+  //     packageId: "PACKAGE203",
+  //     staffId: "STAFF503",
+  //     appointmentDate: "2026-01-15",
+  //     timeSlot: "05:00 PM - 06:00 PM",
+  //     status: "CANCELLED",
+  //   },
+  // ];
+
+  const loadAppointments = async () => {
+    try {
+      setLoading(true);
+      
+      const res = await getAllAppointments();
+      setAppointments(res.data);
+    } catch (error) {
+      console.log(error);
+      alert("❌ Failed to fetch data");
+    }finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadAppointments();
+  }, []);
 
   // ✅ Filters
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [dateFilter, setDateFilter] = useState(""); // yyyy-mm-dd
 
   // ✅ Filter appointments by status + date
-  const filteredAppointments = appointmentsData.filter((apt) => {
+  const filteredAppointments = appointments.filter((apt) => {
     const matchStatus =
       statusFilter === "ALL" ? true : apt.status === statusFilter;
 
-    const matchDate = dateFilter === "" ? true : apt.appointmentDate === dateFilter;
+    const matchDate = dateFilter === "" ? true : apt.appointments === dateFilter;
 
     return matchStatus && matchDate;
   });
@@ -128,7 +149,9 @@ const AppointmentList = () => {
       <h1 className="appointment-title">Appointment List</h1>
 
       <div className="appointment-table-wrapper">
-        {filteredAppointments.length === 0 ? (
+        {loading ? (
+          <p className="appointment-no-data">Loading appointments...Please wait</p>
+        ) : filteredAppointments.length === 0 ? (
           <p className="appointment-no-data">No appointments found.</p>
         ) : (
           <table className="appointment-table">
@@ -148,12 +171,12 @@ const AppointmentList = () => {
 
             <tbody>
               {filteredAppointments.map((apt, index) => (
-                <tr key={apt._id}>
+                <tr key={apt.appointmentId}>
                   <td>{index + 1}</td>
-                  <td className="appointment-id-cell">{apt._id}</td>
+                  <td className="appointment-id-cell">{apt.appointmentId}</td>
                   <td>{apt.userId}</td>
-                  <td>{apt.serviceId}</td>
-                  <td>{apt.packageId}</td>
+                  <td>{apt.serviceId || "-"}</td>
+                  <td>{apt.packageId || "-"}</td>
                   <td>{apt.appointmentDate}</td>
                   <td>{apt.timeSlot}</td>
                   <td>

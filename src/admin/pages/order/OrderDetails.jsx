@@ -6,68 +6,56 @@ const OrderDetails = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
+  /* ================= AFTER HOOKS DO CONDITIONS ================= */
+
   if (!state) return <h2>No Order Found</h2>;
 
   const order = state;
 
-  // Example customer info (later from API)
-  const customer = {
-    name: "John Doe",
-    phone: "+91 9876543210",
-    address: "21, Park Street, Ahmedabad, Gujarat - 380001",
-  };
+  // const grandTotal = (order.orderItems || []).reduce(
+  //   (sum, item) => sum + item.quantity * item.price,
+  //   0
+  // );
 
-  const grandTotal = order.products.reduce(
-    (sum, p) => sum + p.qty * p.price,
-    0
-  );
+  /* ================= UI ================= */
 
   return (
     <div className="invoice-page">
 
-      {/* ===== Header ===== */}
       <div className="invoice-header">
         <h1>Order Details</h1>
 
-        <div>
-          {/* <button onClick={() => window.print()} className="print-btn">
-            Print
-          </button> */}
-
-          <button onClick={() => navigate(-1)} className="back-btn">
-            Back
-          </button>
-        </div>
+        <button onClick={() => navigate(-1)} className="back-btn">
+          Back
+        </button>
       </div>
 
-      {/* ===== Order + Customer Info ===== */}
       <div className="info-section">
 
         <div className="info-box">
           <h3>Customer Details</h3>
-          <p><b>Name:</b> {customer.name}</p>
-          <p><b>Phone:</b> {customer.phone}</p>
-          <p><b>Address:</b> {customer.address}</p>
+          <p><b>Name:</b> {order.deliveryAddress.fullName || "Unknown"}</p>
+          <p><b>Phone:</b> {order.deliveryAddress.phone || "-"}</p>
+          <p><b>Address:</b>{order.deliveryAddress.houseNo}, {order.deliveryAddress.streetAddress}, {order.deliveryAddress.landmark}
+          {order.deliveryAddress.city}, {order.deliveryAddress.state}, {order.deliveryAddress.pincode}. </p>
         </div>
 
         <div className="info-box">
           <h3>Order Info</h3>
           <p><b>Order ID:</b> {order.orderId}</p>
-          <p><b>Date:</b> {order.orderDate}</p>
-          <p><b>Payment ID:</b> {order.paymentId}</p>
-          <p><b>Payment Mode:</b> UPI</p>
+          <p><b>Date:</b> {order.orderAt}</p>
+          <p><b>Payment Status:</b> {order.paymentStatus}</p>
 
           <p>
             <b>Status:</b>{" "}
-            <span className={`status ${order.status.toLowerCase()}`}>
-              {order.status}
+            <span className={`status ${(order.orderStatus || "").toLowerCase()}`}>
+              {order.orderStatus}
             </span>
           </p>
         </div>
 
       </div>
 
-      {/* ===== Products Table ===== */}
       <table className="invoice-table">
         <thead>
           <tr>
@@ -80,21 +68,20 @@ const OrderDetails = () => {
         </thead>
 
         <tbody>
-          {order.products.map((p, i) => (
-            <tr key={i}>
+          {(order.items || []).map((item, i) => (
+            <tr key={item.orderItemId || i}>
               <td>{i + 1}</td>
-              <td>{p.name}</td>
-              <td>₹ {p.price}</td>
-              <td>{p.qty}</td>
-              <td>₹ {p.qty * p.price}</td>
+              <td>{item.productName}</td>
+              <td>₹ {item.price}</td>
+              <td>{item.quantity}</td>
+              <td>₹ {item.quantity * item.price}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* ===== Total ===== */}
       <div className="total-section">
-        <h2>Grand Total : ₹ {grandTotal}</h2>
+        <h2>Grand Total : ₹ {order.totalAmount}</h2>
       </div>
 
     </div>

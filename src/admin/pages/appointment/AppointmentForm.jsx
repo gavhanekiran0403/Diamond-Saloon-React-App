@@ -2,31 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AppointmentForm.css";
 
-const AppointmentForm = () => {
+import { getAllUsers } from "../../../services/UserService";
+import { getAllSaloonServices } from "../../../services/SaloonService";
+import { getAllSaloonPackages } from "../../../services/SaloonPackageService";
+import { createAppointment } from "../../../services/AppointmentService";
 
+const AppointmentForm = () => {
   const navigate = useNavigate();
 
-  // ===== Dummy Data =====
-  const users = [
-    { id: 1, name: "Priya Sharma" },
-    { id: 2, name: "Anjali Patel" },
-    { id: 3, name: "Neha Verma" },
-  ];
-
-  const services = [
-    { id: 1, name: "Hair Cut" },
-    { id: 2, name: "Facial" },
-    { id: 3, name: "Bridal Makeup" },
-  ];
-
-  const packages = [
-    { id: 1, name: "Gold Package" },
-    { id: 2, name: "Bridal Combo" },
-    { id: 3, name: "Skin Care Combo" },
-  ];
-
-  // ===== State =====
+  /* ================= STATES ================= */
+  const [users, setUsers] = useState([]);
+  const [services, setServices] = useState([]);
+  const [packages, setPackages] = useState([]);
   const [timeSlots, setTimeSlots] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     userId: "",
@@ -34,10 +23,36 @@ const AppointmentForm = () => {
     packageId: "",
     appointmentDate: "",
     timeSlot: "",
-    notes: "",
   });
 
-  // ===== Generate 1-hour slots =====
+  /* ================= LOAD API DATA ================= */
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+
+        const [usersRes, servicesRes, packagesRes] = await Promise.all([
+          getAllUsers(),
+          getAllSaloonServices(),
+          getAllSaloonPackages(),
+        ]);
+
+        setUsers(usersRes?.data || []);
+        setServices(servicesRes?.data || []);
+        setPackages(packagesRes?.data || []);
+
+      } catch (err) {
+        console.log(err);
+        alert("❌ Failed to load data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  /* ================= GENERATE TIME SLOTS ================= */
   useEffect(() => {
     const slots = [];
 
@@ -50,7 +65,7 @@ const AppointmentForm = () => {
     setTimeSlots(slots);
   }, []);
 
-  // ===== Handle change =====
+  /* ================= HANDLE CHANGE ================= */
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -60,30 +75,49 @@ const AppointmentForm = () => {
     }));
   };
 
-  // ===== Submit =====
-  const handleSubmit = (e) => {
+  /* ================= SUBMIT ================= */
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Appointment Data:", formData);
+    try {
+      setLoading(true);
 
-    alert("✅ Appointment booked successfully!");
-    navigate(-1);
+      await createAppointment(formData); // ✅ API call
+
+      alert("✅ Appointment booked successfully!");
+      navigate(-1);
+
+    } catch (error) {
+      console.log(error);
+      alert("❌ Failed to book appointment");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  /* ================= UI ================= */
   return (
     <div className="appointment-form-page">
-
       <h2 className="form-title">Book Appointment</h2>
+
+      {loading && <p>Loading...</p>}
 
       <form className="appointment-form" onSubmit={handleSubmit}>
 
         {/* Customer */}
         <div className="form-group">
           <label>Customer</label>
-          <select name="userId" value={formData.userId} onChange={handleChange} required>
+          <select
+            name="userId"
+            value={formData.userId}
+            onChange={handleChange}
+            required
+          >
             <option value="">-- Select Customer --</option>
             {users.map((u) => (
-              <option key={u.id} value={u.id}>{u.name}</option>
+              <option key={u.userId} value={u.userId}>
+                {u.fullName}
+              </option>
             ))}
           </select>
         </div>
@@ -91,10 +125,16 @@ const AppointmentForm = () => {
         {/* Service */}
         <div className="form-group">
           <label>Service</label>
-          <select name="serviceId" value={formData.serviceId} onChange={handleChange}>
+          <select
+            name="serviceId"
+            value={formData.serviceId}
+            onChange={handleChange}
+          >
             <option value="">-- Select Service --</option>
             {services.map((s) => (
-              <option key={s.id} value={s.id}>{s.name}</option>
+              <option key={s.serviceId} value={s.serviceId}>
+                {s.serviceName}
+              </option>
             ))}
           </select>
         </div>
@@ -102,10 +142,16 @@ const AppointmentForm = () => {
         {/* Package */}
         <div className="form-group">
           <label>Service Package</label>
-          <select name="packageId" value={formData.packageId} onChange={handleChange}>
+          <select
+            name="packageId"
+            value={formData.packageId}
+            onChange={handleChange}
+          >
             <option value="">-- Select Package --</option>
             {packages.map((p) => (
-              <option key={p.id} value={p.id}>{p.name}</option>
+              <option key={p.packageId} value={p.packageId}>
+                {p.packageName}
+              </option>
             ))}
           </select>
         </div>
@@ -125,29 +171,26 @@ const AppointmentForm = () => {
         {/* Time Slot */}
         <div className="form-group">
           <label>Time Slot (1 hour)</label>
-          <select name="timeSlot" value={formData.timeSlot} onChange={handleChange} required>
+          <select
+            name="timeSlot"
+            value={formData.timeSlot}
+            onChange={handleChange}
+            required
+          >
             <option value="">-- Select Time Slot --</option>
             {timeSlots.map((slot, index) => (
-              <option key={index} value={slot}>{slot}</option>
+              <option key={index} value={slot}>
+                {slot}
+              </option>
             ))}
           </select>
         </div>
 
-        {/* Notes */}
-        {/* <div className="form-group">
-          <label>Notes</label>
-          <textarea
-            name="notes"
-            rows="3"
-            value={formData.notes}
-            onChange={handleChange}
-            placeholder="Any special instructions..."
-          />
-        </div> */}
-
         {/* Buttons */}
         <div className="form-actions">
-          <button type="submit" className="save-btn">Book</button>
+          <button type="submit" className="save-btn">
+            Book
+          </button>
 
           <button
             type="button"
@@ -157,7 +200,6 @@ const AppointmentForm = () => {
             Cancel
           </button>
         </div>
-
       </form>
     </div>
   );

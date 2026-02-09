@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:9292/orders";
+const API_URL = "http://localhost:9292/order";
 
 export const getAllOrders = () => {
-    return axios.get(API_URL);
+    return axios.get(`${API_URL}/get-all`);
 };
 
 export const deleteOrder = (orderId) => {

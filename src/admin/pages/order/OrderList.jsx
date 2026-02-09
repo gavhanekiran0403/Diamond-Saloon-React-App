@@ -1,128 +1,108 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./OrderList.css";
 import { useNavigate } from "react-router-dom";
+import { getAllOrders } from "../../../services/OrderService";
+import { getAllUsers } from "../../../services/UserService";
 
 const OrderList = () => {
-
-  // ✅ Salon & Beauty Orders Data
-const ordersData = [
-  {
-    orderId: "ORD001",
-    userId: "USER001",
-    orderDate: "2026-01-13",
-    status: "PENDING",
-    totalAmount: 1899,
-    paymentId: "PAY101",
-    products: [
-      { name: "Hair Spa Cream", qty: 1, price: 699 },
-      { name: "Keratin Shampoo", qty: 2, price: 600 },
-    ],
-  },
-  {
-    orderId: "ORD002",
-    userId: "USER002",
-    orderDate: "2026-01-14",
-    status: "COMPLETED",
-    totalAmount: 1499,
-    paymentId: "PAY102",
-    products: [
-      { name: "Facial Kit (Gold)", qty: 1, price: 999 },
-      { name: "Aloe Vera Gel", qty: 1, price: 500 },
-    ],
-  },
-  {
-    orderId: "ORD003",
-    userId: "USER003",
-    orderDate: "2026-01-15",
-    status: "CANCELLED",
-    totalAmount: 799,
-    paymentId: "PAY103",
-    products: [
-      { name: "Hair Dryer Service", qty: 1, price: 799 },
-    ],
-  },
-  {
-    orderId: "ORD004",
-    userId: "USER004",
-    orderDate: "2026-01-16",
-    status: "COMPLETED",
-    totalAmount: 2599,
-    paymentId: "PAY104",
-    products: [
-      { name: "Bridal Makeup Package", qty: 1, price: 1999 },
-      { name: "Nail Art Service", qty: 1, price: 600 },
-    ],
-  },
-  {
-    orderId: "ORD005",
-    userId: "USER005",
-    orderDate: "2026-01-17",
-    status: "COMPLETED",
-    totalAmount: 1299,
-    paymentId: "PAY105",
-    products: [
-      { name: "Organic Face Wash", qty: 2, price: 350 },
-      { name: "Skin Glow Serum", qty: 1, price: 599 },
-    ],
-  },
-];
-
   const navigate = useNavigate();
-  // ================= STATES =================
+
+  /* ================= STATES ================= */
+  const [ordersData, setOrdersData] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const [orderIdFilter, setOrderIdFilter] = useState("");
-  const [userIdFilter, setUserIdFilter] = useState("");
+  const [customerFilter, setCustomerFilter] = useState("");
   const [orderDateFilter, setOrderDateFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
 
-  // ================= FILTER LOGIC =================
+  /* ================= LOAD DATA ================= */
+  const loadData = async () => {
+    try {
+      setLoading(true);
+
+      const [ordersRes, usersRes] = await Promise.all([
+        getAllOrders(),
+        getAllUsers()
+      ]);
+
+      setOrdersData(ordersRes.data || []);
+      setUsers(usersRes.data || []);
+    } catch (error) {
+      console.log(error);
+      alert("❌ Failed to fetch data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  /* ================= FAST USER MAP ================= */
+  const userMap = useMemo(() => {
+    const map = {};
+    users.forEach((u) => {
+      map[u.userId] = u.fullName;
+    });
+    return map;
+  }, [users]);
+
+  const getUserFullName = (userId) => userMap[userId] || "Unknown";
+
+  /* ================= FILTER LOGIC ================= */
   const filteredOrders = ordersData.filter((order) => {
+    const fullName = getUserFullName(order.userId).toLowerCase();
+
     const matchOrderId =
       orderIdFilter === "" ||
-      order.orderId.toLowerCase().includes(orderIdFilter.toLowerCase());
+      (order.orderId || "")
+        .toLowerCase()
+        .includes(orderIdFilter.toLowerCase());
 
-    const matchUserId =
-      userIdFilter === "" ||
-      order.userId.toLowerCase().includes(userIdFilter.toLowerCase());
+    const matchCustomer =
+      customerFilter === "" ||
+      fullName.includes(customerFilter.toLowerCase());
 
-    const matchOrderDate =
-      orderDateFilter === "" || order.orderDate === orderDateFilter;
+    const matchDate =
+      orderDateFilter === "" || order.orderAt === orderDateFilter;
 
     const matchStatus =
-      statusFilter === "ALL" || order.status === statusFilter;
+      statusFilter === "ALL" || order.orderStatus === statusFilter;
 
-    return matchOrderId && matchUserId && matchOrderDate && matchStatus;
+    return matchOrderId && matchCustomer && matchDate && matchStatus;
   });
 
-  // ================= RESET =================
+  /* ================= RESET ================= */
   const resetFilters = () => {
     setOrderIdFilter("");
-    setUserIdFilter("");
+    setCustomerFilter("");
     setOrderDateFilter("");
     setStatusFilter("ALL");
   };
 
+  /* ================= UI ================= */
   return (
     <div className="order-page">
-
-      {/* ✅ Top Action - Filters (UNCHANGED) */}
+      {/* Filters */}
       <div className="order-top-action">
         <div className="order-filter-bar">
 
           <div className="order-filter-item">
             <label>Order ID:</label>
             <input
-              type="text"
               value={orderIdFilter}
               onChange={(e) => setOrderIdFilter(e.target.value)}
             />
           </div>
 
           <div className="order-filter-item">
-            <label>User ID:</label>
+            <label>Customer Name:</label>
             <input
-              type="text"
-              value={userIdFilter}
-              onChange={(e) => setUserIdFilter(e.target.value)}
+              value={customerFilter}
+              onChange={(e) => setCustomerFilter(e.target.value)}
             />
           </div>
 
@@ -142,9 +122,15 @@ const ordersData = [
               onChange={(e) => setStatusFilter(e.target.value)}
             >
               <option value="ALL">All</option>
-              <option value="PENDING">PENDING</option>
-              <option value="COMPLETED">COMPLETED</option>
+              <option value="PLACED">PLACED</option>
+              <option value="PACKED">PACKED</option>
+              <option value="SHIPPED">SHIPPED</option>
+              <option value="OUT_FOR_DELIVERY">OUT FOR DELIVERY</option>
+              <option value="DELIVERED">DELIVERED</option>
               <option value="CANCELLED">CANCELLED</option>
+              <option value="RETURN_REQUESTED">RETURN REQUESTED</option>
+              <option value="RETURN_APPROVED">RETURN APPROVED</option>
+              <option value="REFUNDED">REFUNDED</option>
             </select>
           </div>
 
@@ -156,9 +142,11 @@ const ordersData = [
 
       <h1 className="order-title">Order List</h1>
 
-      {/* ================= TABLE ================= */}
+      {/* TABLE */}
       <div className="order-table-wrapper">
-        {filteredOrders.length === 0 ? (
+        {loading ? (
+          <p className="order-no-data">Loading orders...Please wait</p>
+        ) : filteredOrders.length === 0 ? (
           <p className="order-no-data">No orders found.</p>
         ) : (
           <table className="order-table">
@@ -166,13 +154,11 @@ const ordersData = [
               <tr>
                 <th>Sr.No.</th>
                 <th>Order ID</th>
-                <th>User ID</th>
+                <th>Customer Name</th>
                 <th>Order Date</th>
                 <th>Order Status</th>
                 <th>Total Amount (₹)</th>
-                <th>Payment ID</th>
-
-                {/* ✅ NEW ACTION COLUMN */}
+                <th>Payment Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -182,23 +168,30 @@ const ordersData = [
                 <tr key={order.orderId}>
                   <td>{index + 1}</td>
                   <td>{order.orderId}</td>
-                  <td>{order.userId}</td>
-                  <td>{order.orderDate}</td>
+                  <td>{getUserFullName(order.userId)}</td>
+                  <td>{order.orderAt}</td>
 
                   <td>
-                    <span className={`order-status-badge order-status-${order.status.toLowerCase()}`}>
-                      {order.status}
+                    <span
+                      className={`order-status-badge order-status-${(
+                        order.orderStatus || ""
+                      ).toLowerCase()}`}
+                    >
+                      {order.orderStatus}
                     </span>
                   </td>
 
                   <td>{order.totalAmount}</td>
-                  <td>{order.paymentId}</td>
+                  <td>{order.paymentStatus}</td>
 
-                  {/* ✅ VIEW BUTTON */}
                   <td>
                     <button
                       className="order-view-btn"
-                      onClick={() => navigate(`/admin/orders/${order.orderId}`, { state: order })}
+                      onClick={() =>
+                        navigate(`/admin/orders/${order.orderId}`, {
+                          state: order
+                        })
+                      }
                     >
                       View
                     </button>
