@@ -30,8 +30,8 @@ function Navbar(){
     };
 
     return(
-        <div className="navbar">
-            <div className="navbar-right">
+        <div className="admin-navbar">
+            <div className="admin-navbar-right">
                 <div className="admin-notification">
                     🔔
                     <span className="badge">3</span>

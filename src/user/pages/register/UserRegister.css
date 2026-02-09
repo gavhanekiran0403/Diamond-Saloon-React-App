@@ -1,0 +1,55 @@
+.register-wrapper {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f6fb;
+}
+
+.register-card {
+  width: 900px;
+  height: 420px;
+  display: flex;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.register-left {
+  flex: 1;
+  background: linear-gradient(135deg, #8e44ad, #9b59b6);
+  color: white;
+  padding: 40px;
+}
+
+.register-left h2 {
+  margin-bottom: 10px;
+}
+
+.register-left input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 6px;
+  border: none;
+}
+
+.register-left button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background: gold;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.register-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

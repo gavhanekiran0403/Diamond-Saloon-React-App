@@ -9,7 +9,7 @@ const UserDashboard = () => {
     if (!user) {
       navigate("/user/login");
     }
-  }, [user, navigate]);   // ✅ FIXED HERE
+  }, [user, navigate]);   
 
   return (
     <div className="dashboard-container">

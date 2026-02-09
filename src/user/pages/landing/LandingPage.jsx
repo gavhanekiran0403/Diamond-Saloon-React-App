@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import UserNavbar from "./user/components/navbar/UserNavbar";
 import "./LandingPage.css";
 
 const LandingPage = () => {
@@ -8,11 +7,9 @@ const LandingPage = () => {
 
   return (
     <>
-      <UserNavbar />
-
-      <div className="landing-container">
-        {/* LEFT CONTENT */}
-        <div className="landing-content">
+      {/* ✅ Hero Section */}
+      <section className="landing-container">
+        <div className="landing-left">
           <h1>Diamond Saloon</h1>
 
           <h3>
@@ -33,11 +30,13 @@ const LandingPage = () => {
           </button>
         </div>
 
-        {/* RIGHT IMAGE */}
-        <div className="landing-image">
-          <img src="/images/diamond-hero.jpg" alt="Diamond Saloon" />
+        <div className="landing-right">
+          <img
+            src="/images/diamond-hero.jpg"
+            alt="Diamond Saloon"
+          />
         </div>
-      </div>
+      </section>
     </>
   );
 };

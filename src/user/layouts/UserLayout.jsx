@@ -1,21 +1,37 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
-import "./UserLayout.css";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 
 import UserNavbar from "../components/navbar/UserNavbar";
 import UserFooter from "../components/footer/UserFooter";
+import "./UserLayout.css";
 
 const UserLayout = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // ❌ Do not show Back button on home/dashboard
+  const hideBackOn = ["/", "/user/dashboard"];
+  const showBack = !hideBackOn.includes(location.pathname);
+
   return (
-    <div className="user-layout">
+    <>
       <UserNavbar />
 
-      <main className="user-content">
-        <Outlet />
-      </main>
+      {showBack && (
+        <div className="back-wrapper">
+          <button
+            className="back-btn"
+            onClick={() => navigate(-1)}
+          >
+            ← Back
+          </button>
+        </div>
+      )}
+
+      <Outlet />
 
       <UserFooter />
-    </div>
+    </>
   );
 };
 

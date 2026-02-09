@@ -44,6 +44,25 @@
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
+  margin-top: 10px;
+}
+
+/* ✅ SIGN UP TEXT */
+.signup-text {
+  margin-top: 18px;
+  font-size: 14px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.signup-text span {
+  color: #ffd700;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.signup-text span:hover {
+  text-decoration: underline;
 }
 
 /* RIGHT PANEL */
