@@ -1,15 +1,29 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:9292/product-categories";
+const API_URL = "http://localhost:9292/product-categories"
 
-export const getAllCategories = () => {
-  return axios.get(`${BASE_URL}/get-all`);
+// Get all product categories
+export const getAllProductCategories = () => {
+    return axios.get(`${API_URL}/get-all`);
+}
+
+// Create a new product category
+export const createProductCategory = (categoryData) => {
+    return axios.post(`${API_URL}/create`, categoryData);
+}
+
+// Get product category by id
+export const getProductCategoryById = (productCategoryId) => {
+    return axios.get(`${API_URL}/${productCategoryId}`);
+}
+
+// Update product category
+export const updateProductCategory = (productCategoryId, categoryData) => {
+    return axios.put(`${API_URL}/update/${productCategoryId}`, categoryData);
+}
+
+// Delete product category
+export const deleteProductCategory = (productCategoryId) => {
+  return axios.delete(`${API_URL}/delete/${productCategoryId}`);
 };
 
-export const createCategory = (category) => {
-  return axios.post(`${BASE_URL}/create`, category);
-};
-
-export const deleteCategory = (id) => {
-  return axios.delete(`${BASE_URL}/delete/${id}`);
-};

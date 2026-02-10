@@ -1,0 +1,118 @@
+.orders-container {
+  padding: 40px 80px;
+  background: #f5f7fa;
+  min-height: 80vh;
+}
+
+.orders-container h2 {
+  margin-bottom: 25px;
+  color: #0a3d62;
+}
+
+/* ========================= */
+/* TABLE STYLING */
+/* ========================= */
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.orders-table th {
+  background: #f1f3f6;
+  font-weight: 600;
+  color: #333;
+}
+
+.orders-table tr:hover {
+  background: #f9f9f9;
+}
+
+/* ========================= */
+/* STATUS BADGES */
+/* ========================= */
+
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.status-placed {
+  background: #d6eaf8;
+  color: #1f618d;
+}
+
+.status-delivered {
+  background: #d5f5e3;
+  color: #1e8449;
+}
+
+.status-cancelled {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.status-refunded {
+  background: #e2e3e5;
+  color: #383d41;
+}
+
+/* ========================= */
+/* VIEW BUTTON */
+/* ========================= */
+
+.view-btn {
+  background: #28a745;
+  border: none;
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.view-btn:hover {
+  background: #1e7e34;
+  transform: translateY(-1px);
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 20px;
+  }
+
+  .orders-table {
+    font-size: 12px;
+  }
+
+  .orders-table th,
+  .orders-table td {
+    padding: 10px;
+  }
+
+  .view-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}

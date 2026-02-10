@@ -101,7 +101,10 @@ const TimeSlotSettings = () => {
               type="time"
               value={regularSchedule.openTime}
               onChange={(e) =>
-                setRegularSchedule({ ...regularSchedule, openTime: e.target.value })
+                setRegularSchedule({
+                  ...regularSchedule,
+                  openTime: e.target.value,
+                })
               }
             />
           </div>
@@ -112,7 +115,10 @@ const TimeSlotSettings = () => {
               type="time"
               value={regularSchedule.closeTime}
               onChange={(e) =>
-                setRegularSchedule({ ...regularSchedule, closeTime: e.target.value })
+                setRegularSchedule({
+                  ...regularSchedule,
+                  closeTime: e.target.value,
+                })
               }
             />
           </div>
@@ -134,9 +140,13 @@ const TimeSlotSettings = () => {
             </select>
           </div>
 
-          <button className="btn-generate" onClick={generateRegularSlots}>
-            Generate Slots
-          </button>
+          {/* ✅ Button inside form-group for proper alignment */}
+          <div className="form-group">
+            <label style={{ visibility: "hidden" }}>Action</label>
+            <button className="btn-generate" onClick={generateRegularSlots}>
+              Generate Slots
+            </button>
+          </div>
         </div>
 
         {/* Slots Display */}
@@ -167,14 +177,18 @@ const TimeSlotSettings = () => {
             />
           </div>
 
-          <div className="form-group checkbox-group">
-            <label>Mark OFF</label>
-            <input
-              type="checkbox"
-              checked={isOff}
-              onChange={(e) => setIsOff(e.target.checked)}
-            />
-          </div>
+          <div className="form-group markoff-group">
+  <label>Mark OFF</label>
+
+  <div className="markoff-center">
+    <input
+      type="checkbox"
+      checked={isOff}
+      onChange={(e) => setIsOff(e.target.checked)}
+    />
+  </div>
+</div>
+
 
           {!isOff && (
             <>
@@ -198,9 +212,13 @@ const TimeSlotSettings = () => {
             </>
           )}
 
-          <button className="btn-save" onClick={saveOverride}>
-            Save Override
-          </button>
+          {/* ✅ Button inside form-group for alignment */}
+          <div className="form-group">
+            <label style={{ visibility: "hidden" }}>Action</label>
+            <button className="btn-save" onClick={saveOverride}>
+              Save Override
+            </button>
+          </div>
         </div>
 
         {/* Override List */}
@@ -215,7 +233,9 @@ const TimeSlotSettings = () => {
                   {o.isOff ? (
                     <span className="off-text">OFF</span>
                   ) : (
-                    <span className="custom-text">{o.customSlots.join(", ")}</span>
+                    <span className="custom-text">
+                      {o.customSlots.join(", ")}
+                    </span>
                   )}
                 </div>
 

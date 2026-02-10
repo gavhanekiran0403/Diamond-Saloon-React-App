@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getAllProducts } from "../../../services/productService";
 import { addToCart } from "../../../services/CartService";
 import { useNavigate } from "react-router-dom";
 import "./UserProducts.css";
+import { getAllProducts } from "../../../services/ProductService";
 
 const UserProducts = () => {
   const [products, setProducts] = useState([]);

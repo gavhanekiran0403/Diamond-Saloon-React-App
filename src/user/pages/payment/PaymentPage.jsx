@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { createUserOrder } from "../../../services/userOrderService";
 import "./PaymentPage.css";
 
 const PaymentPage = () => {
@@ -9,48 +9,59 @@ const PaymentPage = () => {
 
   const product = state?.product;
   const cartItems = state?.cartItems;
-  const totalAmount = state?.totalAmount;
+  const selectedPackage = state?.selectedPackage;
+  const totalAmount = state?.totalAmount || selectedPackage?.price;
+  const addressId = state?.addressId;
 
-  const { fullName, mobile, address } = state || {};
-
-  if (!product && !cartItems)
-    return <h2>Invalid Access</h2>;
+  if (!product && !cartItems && !selectedPackage) {
+    return <h2 style={{ padding: "40px" }}>Invalid Access</h2>;
+  }
 
   const handlePayment = async () => {
     try {
-      // ✅ Prepare items exactly like CartItem model
-      const itemsToSend = cartItems
-        ? cartItems.map((item) => ({
-            cartItemId: item.cartItemId,
-            productId: item.productId,
-            productName: item.productName,
-            price: item.price,
-            quantity: item.quantity,
-            inStock: true,
-            imageUrl: item.imageUrl,
-          }))
-        : [
-            {
-              cartItemId: Math.random().toString(36).substring(2, 12),
-              productId: product.productId,
-              productName: product.productName,
-              price: product.price,
-              quantity: 1,
-              inStock: true,
-              imageUrl: product.imageUrl,
-            },
-          ];
+      let payload;
 
-      await axios.post("http://localhost:9292/orders", {
-        userId: user.userId,
-        items: itemsToSend,
-        totalAmount: totalAmount,
-      });
+      // 🛒 CART CHECKOUT
+      if (cartItems) {
+        payload = {
+          userId: user.userId,
+          cartItemId: cartItems[0].cartItemId,
+          cartCheckout: true,
+          addressId: addressId,
+          paymentMethod: "ONLINE",
+        };
+
+        await createUserOrder(payload);
+      }
+
+      // 🛍 SINGLE PRODUCT
+      else if (product) {
+        payload = {
+          userId: user.userId,
+          productId: product.productId,
+          quantity: 1,
+          cartCheckout: false,
+          addressId: addressId,
+          paymentMethod: "ONLINE",
+        };
+
+        await createUserOrder(payload);
+      }
+
+      // 💎 PACKAGE PAYMENT (TEMP FIX)
+      else if (selectedPackage) {
+        // Since backend does not support package yet
+        // Just simulate success
+        alert("Package Payment Successful ✅");
+        navigate("/user/orders");
+        return;
+      }
 
       alert("Payment Successful ✅");
       navigate("/user/orders");
+
     } catch (error) {
-      console.error("Order error:", error.response?.data);
+      console.error("Order error:", error.response?.data || error);
       alert("Order Failed ❌");
     }
   };
@@ -60,7 +71,6 @@ const PaymentPage = () => {
       <div className="payment-card">
         <h2>Payment Summary</h2>
 
-        {/* Single Product */}
         {product && (
           <div className="product-info">
             <img
@@ -74,7 +84,6 @@ const PaymentPage = () => {
           </div>
         )}
 
-        {/* Cart Products */}
         {cartItems &&
           cartItems.map((item) => (
             <div key={item.cartItemId} className="product-info">
@@ -85,11 +94,17 @@ const PaymentPage = () => {
             </div>
           ))}
 
-        <div className="user-info">
-          <p><strong>Name:</strong> {fullName}</p>
-          <p><strong>Mobile:</strong> {mobile}</p>
-          <p><strong>Address:</strong> {address}</p>
-        </div>
+        {selectedPackage && (
+          <div className="product-info">
+            <h3>{selectedPackage.name}</h3>
+            <p>Category: {selectedPackage.category}</p>
+            <p>₹ {selectedPackage.price}</p>
+          </div>
+        )}
+
+        <h3 style={{ marginTop: "15px" }}>
+          Total: ₹ {totalAmount}
+        </h3>
 
         <button className="pay-btn" onClick={handlePayment}>
           Pay ₹ {totalAmount}

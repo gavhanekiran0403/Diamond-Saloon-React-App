@@ -1,24 +1,23 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import axios from "axios";
 import "./CheckoutPage.css";
 
 const CheckoutPage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-
   const user = JSON.parse(localStorage.getItem("user"));
 
-  // Supports BOTH flows
   const product = state?.product;
   const cartItems = state?.cartItems;
+
   const totalAmount =
     state?.totalAmount || (product ? product.price : 0);
 
-  // Auto-filled from logged-in user
-  const [fullName] = useState(user?.fullName || "");
-  const [mobile] = useState(user?.phone || "");
+  const [addressId, setAddressId] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
-  // 🔥 Structured address fields
+  // Address Fields
   const [houseNo, setHouseNo] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [landmark, setLandmark] = useState("");
@@ -26,107 +25,160 @@ const CheckoutPage = () => {
   const [stateName, setStateName] = useState("");
   const [pincode, setPincode] = useState("");
 
-  if (!product && !cartItems)
-    return <h2>No items selected</h2>;
+  // ✅ Fetch default address (CORRECT API)
+  const fetchDefaultAddress = useCallback(async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:9292/address/get-all/${user.userId}`
+      );
 
-  const handleConfirm = () => {
-    const address = `${houseNo}, ${streetAddress}, ${landmark}, ${city}, ${stateName} - ${pincode}`;
+      const defaultAddress = res.data.find(
+        (a) => a.defaultAddress === true
+      );
 
-    navigate("/user/payment", {
-      state: {
-        product,
-        cartItems,
-        totalAmount,
-        fullName,
-        mobile,
-        address,
-      },
-    });
+      if (defaultAddress) {
+        setAddressId(defaultAddress.addressId);
+        setHouseNo(defaultAddress.houseNo || "");
+        setStreetAddress(defaultAddress.streetAddress || "");
+        setLandmark(defaultAddress.landmark || "");
+        setCity(defaultAddress.city || "");
+        setStateName(defaultAddress.state || "");
+        setPincode(defaultAddress.pincode || "");
+        setIsEditing(false);
+      } else {
+        setIsEditing(true);
+      }
+    } catch (error) {
+      console.log("No address found");
+      setIsEditing(true);
+    }
+  }, [user.userId]);
+
+  useEffect(() => {
+    fetchDefaultAddress();
+  }, [fetchDefaultAddress]);
+
+  // ✅ Save address if needed (CORRECT API)
+  const saveAddressIfNeeded = async () => {
+    if (addressId && !isEditing) return addressId;
+
+    const payload = {
+      userId: user.userId,
+      houseNo,
+      streetAddress,
+      landmark,
+      city,
+      state: stateName,
+      pincode,
+      defaultAddress: true,
+    };
+
+    const res = await axios.post(
+      "http://localhost:9292/address/add",
+      payload
+    );
+
+    return res.data.addressId;
   };
+
+  const handleConfirm = async () => {
+    try {
+      const savedAddressId = await saveAddressIfNeeded();
+
+      navigate("/user/payment", {
+        state: {
+          product,
+          cartItems,
+          totalAmount,
+          addressId: savedAddressId,
+        },
+      });
+    } catch (error) {
+      console.error("Address Save Error:", error.response?.data);
+      alert("Address Save Failed ❌");
+    }
+  };
+
+  if (!product && !cartItems)
+    return <h2 style={{ padding: "40px" }}>No items selected</h2>;
 
   return (
     <div className="checkout-wrapper">
       <div className="checkout-card">
         <h2>Delivery Details</h2>
 
-        {/* Single Product */}
-        {product && (
-          <div className="product-summary">
-            <img
-              src={`http://localhost:9292/${product.imageUrl}`}
-              alt={product.productName}
-            />
-            <div>
-              <h3>{product.productName}</h3>
-              <p>₹ {product.price}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Cart Products */}
-        {cartItems && (
-          <div className="cart-summary">
-            {cartItems.map((item) => (
-              <div key={item.cartItemId} className="cart-product">
-                <h4>{item.productName}</h4>
-                <p>
-                  ₹ {item.price} × {item.quantity}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        <h3 style={{ marginTop: "15px" }}>
+        <h3 style={{ marginBottom: "15px" }}>
           Total: ₹ {totalAmount}
         </h3>
 
-        <div className="form-group">
-          {/* Auto-filled */}
-          <input type="text" value={fullName} readOnly />
-          <input type="text" value={mobile} readOnly />
+        {addressId && !isEditing ? (
+          <>
+            <div className="saved-address">
+              <p>{houseNo}, {streetAddress}</p>
+              <p>{landmark}</p>
+              <p>{city}, {stateName} - {pincode}</p>
+            </div>
 
-          {/* Address form */}
-          <input
-            placeholder="House No"
-            value={houseNo}
-            onChange={(e) => setHouseNo(e.target.value)}
-          />
-
-          <input
-            placeholder="Street Address"
-            value={streetAddress}
-            onChange={(e) => setStreetAddress(e.target.value)}
-          />
-
-          <input
-            placeholder="Landmark"
-            value={landmark}
-            onChange={(e) => setLandmark(e.target.value)}
-          />
-
-          <div className="row">
+            <button
+              className="edit-btn"
+              onClick={() => setIsEditing(true)}
+            >
+              Edit Address
+            </button>
+          </>
+        ) : (
+          <div className="form-group">
             <input
-              placeholder="City"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
+              placeholder="House No"
+              value={houseNo}
+              onChange={(e) => setHouseNo(e.target.value)}
             />
+
             <input
-              placeholder="State"
-              value={stateName}
-              onChange={(e) => setStateName(e.target.value)}
+              placeholder="Street Address"
+              value={streetAddress}
+              onChange={(e) =>
+                setStreetAddress(e.target.value)
+              }
+            />
+
+            <input
+              placeholder="Landmark"
+              value={landmark}
+              onChange={(e) => setLandmark(e.target.value)}
+            />
+
+            <div className="row">
+              <input
+                placeholder="City"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+
+              <input
+                placeholder="State"
+                value={stateName}
+                onChange={(e) =>
+                  setStateName(e.target.value)
+                }
+              />
+            </div>
+
+            <input
+              placeholder="Pincode"
+              value={pincode}
+              onChange={(e) =>
+                setPincode(e.target.value)
+              }
             />
           </div>
+        )}
 
-          <input
-            placeholder="Pincode"
-            value={pincode}
-            onChange={(e) => setPincode(e.target.value)}
-          />
-        </div>
-
-        <button className="confirm-btn" onClick={handleConfirm}>
-          Confirm Booking
+        <button
+          className="confirm-btn"
+          onClick={handleConfirm}
+        >
+          Continue to Payment
         </button>
       </div>
     </div>

@@ -38,7 +38,7 @@ const MyAppointments = () => {
           <p>Please book your first appointment.</p>
         </div>
       ) : (
-        <table className="appointments-table">
+        <table className="my-appointments-table">
           <thead>
             <tr>
               <th>Name</th>

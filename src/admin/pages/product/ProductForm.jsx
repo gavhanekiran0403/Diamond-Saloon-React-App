@@ -1,31 +1,77 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "./ProductForm.css";
 
-const categories = [
-  { categoryId: "1", categoryName: "Hair Care" },
-  { categoryId: "2", categoryName: "Hair Styling" },
-  { categoryId: "3", categoryName: "Skin Care" },
-  { categoryId: "4", categoryName: "Salon Tools" },
-];
+import { getAllProductCategories } from "../../../services/ProductCategoryService";
+import {
+  addProduct,
+  getProductById,
+  updateProduct,
+} from "../../../services/ProductService";
 
 const ProductForm = () => {
   const navigate = useNavigate();
+  const { productId } = useParams();
+  const isEditMode = Boolean(productId);
+
+  const [categories, setCategories] = useState([]);
+
+  // Image states
+  const [productImage, setProductImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
 
   const [formData, setFormData] = useState({
     productName: "",
     brand: "",
     price: "",
-    stockQty: "",
+    stockQuantity: "", 
     description: "",
-    categoryId: "",
+    productCategoryId: "", 
   });
 
-  // ✅ Image states
-  const [productImage, setProductImage] = useState(null); // stores file
-  const [imagePreview, setImagePreview] = useState(""); // stores preview URL
+  // Load categories
+  const loadCategories = async () => {
+    try {
+      const res = await getAllProductCategories();
+      setCategories(res.data);
+    } catch (error) {
+      alert("❌ Failed to fetch categories. Please try again later!");
+      console.log("Error fetching categories : ", error);
+    }
+  };
 
-  // ✅ Handle normal input changes
+  // Load product for edit mode
+  const loadProduct = async (productId) => {
+    try {
+      const res = await getProductById(productId);
+
+      setFormData({
+        productName: res.data.productName || "",
+        brand: res.data.brand || "",
+        price: res.data.price || "",
+        stockQuantity: res.data.stockQuantity || "",
+        description: res.data.description || "",
+        productCategoryId: res.data.categoryId || "",
+      });
+
+      // Base64 image preview (backend stores base64 in imageUrl)
+      if (res.data.imageUrl) {
+        setImagePreview(`data:image/jpeg;base64,${res.data.imageUrl}`);
+      }
+    } catch (error) {
+      alert("❌ Failed to fetch product. Please try again later!");
+      console.log("Error fetching product : ", error);
+    }
+  };
+
+  useEffect(() => {
+    loadCategories();
+    if (isEditMode) {
+      loadProduct(productId);
+    }
+  }, [productId, isEditMode]);
+
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -35,53 +81,40 @@ const ProductForm = () => {
     }));
   };
 
-  // ✅ Handle image upload
+  // Handle image upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
     if (file) {
       setProductImage(file);
-
-      // create preview url
-      const previewUrl = URL.createObjectURL(file);
-      setImagePreview(previewUrl);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
-  // ✅ Handle submit
-  const handleSubmit = (e) => {
+  // Submit (Add / Update)
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ create payload
-    const payload = {
-      ...formData,
-      productImage: productImage ? productImage.name : "No Image Selected",
-    };
+    try {
 
-    console.log("Product Payload:", payload);
+      if (isEditMode) {
+        await updateProduct(productId, formData, productImage);
+        alert("✅ Product updated Successfully");
+      } else {
+        await addProduct(formData, productImage);
+        alert("✅ Product Added Successfully");
+      }
 
-    alert("Product Added Successfully ✅");
-
-    // ✅ reset form
-    setFormData({
-      productName: "",
-      brand: "",
-      price: "",
-      stockQty: "",
-      description: "",
-      categoryId: "",
-    });
-
-    setProductImage(null);
-    setImagePreview("");
-
-    // ✅ redirect
-    navigate("/admin/products");
+      navigate("/admin/products");
+    } catch (error) {
+      console.error("Save failed", error);
+      alert("❌ Failed to save product");
+    }
   };
 
   return (
     <div className="product-form-page">
-      <h2 className="form-title">Add Product</h2>
+      <h2 className="form-title">{isEditMode ? "Edit Product" : "Add Product"}</h2>
 
       <form className="product-form" onSubmit={handleSubmit}>
         {/* Product Name */}
@@ -128,8 +161,8 @@ const ProductForm = () => {
           <label>Stock Quantity</label>
           <input
             type="number"
-            name="stockQty"
-            value={formData.stockQty}
+            name="stockQuantity"
+            value={formData.stockQuantity}
             onChange={handleChange}
             placeholder="Enter stock quantity"
             required
@@ -140,14 +173,14 @@ const ProductForm = () => {
         <div className="form-group">
           <label>Category</label>
           <select
-            name="categoryId"
-            value={formData.categoryId}
+            name="productCategoryId"
+            value={formData.productCategoryId}
             onChange={handleChange}
             required
           >
             <option value="">-- Select Category --</option>
             {categories.map((cat) => (
-              <option key={cat.categoryId} value={cat.categoryId}>
+              <option key={cat.productCategoryId} value={cat.productCategoryId}>
                 {cat.categoryName}
               </option>
             ))}
@@ -167,28 +200,23 @@ const ProductForm = () => {
           />
         </div>
 
-        {/* ✅ Image Upload */}
+        {/* Image Upload */}
         <div className="form-group">
-          <label>Upload Product Image</label>
+          <label>
+            Upload Product Image {isEditMode ? "(Select new image to update)" : ""}
+          </label>
           <input
             type="file"
             accept="image/*"
             onChange={handleImageChange}
-            required
+            required={!isEditMode}
           />
         </div>
 
-        {/* ✅ Show Image Name */}
-        {productImage && (
-          <p className="image-name">
-            Selected Image: <span>{productImage.name}</span>
-          </p>
-        )}
-
-        {/* ✅ Image Preview */}
+        {/* Image Preview */}
         {imagePreview && (
           <div className="image-preview">
-            <p>Image Preview:</p>
+            <p>{isEditMode ? "Image Preview:" : "Uploaded Image"}</p>
             <img src={imagePreview} alt="Preview" />
           </div>
         )}
@@ -196,7 +224,7 @@ const ProductForm = () => {
         {/* Buttons */}
         <div className="form-actions">
           <button type="submit" className="save-btn">
-            Save
+            {isEditMode ? "Update" : "Save"}
           </button>
 
           <button

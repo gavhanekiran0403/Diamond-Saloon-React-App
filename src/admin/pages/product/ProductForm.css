@@ -70,15 +70,17 @@
   resize: none;
 }
 
+.form-group input[type="file"] {
+  border: none;
+  padding: 0;
+  width: auto;
+}
+
 /* ✅ Image Name */
 .image-name {
   font-size: 14px;
   font-weight: 700;
   color: #374151;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  padding: 10px;
-  border-radius: 8px;
 }
 
 .image-name span {
@@ -87,14 +89,13 @@
 
 /* ✅ Image Preview */
 .image-preview {
-  margin-top: 10px;
-  text-align: center;
+  text-align: left;
 }
 
 .image-preview p {
   font-weight: 700;
   color: #374151;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .image-preview img {

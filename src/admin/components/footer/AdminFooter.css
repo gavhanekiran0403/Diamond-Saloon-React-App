@@ -1,25 +1,31 @@
 .admin-footer {
   height: 50px;
-  background-color: #ffffff;
-  border-top: 1px solid #e5e7eb;
-  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+  background: white;
+
+  position: fixed;
+  bottom: 0;
+
+  left: 250px;
+  width: calc(100% - 250px);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  font-size: 14px;
-  font-weight: 600;
-  color: #374151;
+  border-top: 1px solid #e5e7eb;
 
-  /* ✅ Fixed Footer */
-  position: fixed;
-  bottom: 0;
-  left: 250px; /* sidebar width */
-  width: calc(100% - 250px);
   z-index: 1500;
+  transition: all 0.3s ease;
 }
 
-.admin-footer p {
-  margin: 0;
+.admin-footer.full {
+  left: 0;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .admin-footer {
+    left: 0;
+    width: 100%;
+  }
 }

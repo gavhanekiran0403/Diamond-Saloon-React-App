@@ -58,19 +58,19 @@
 }
 
 /* Status Badge */
-.status-badge {
+.customer-status-badge {
   padding: 4px 14px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
 }
 
-.status-badge.active {
+.customer-status-badge.active {
   background-color: #dcfce7;
   color: #166534;
 }
 
-.status-badge.inactive {
+.customer-status-badge.inactive {
   background-color: #fee2e2;
   color: #991b1b;
 }
@@ -97,3 +97,14 @@
 .force-logout-btn:active {
   transform: translateY(1px);
 }
+
+/* No Data */
+.customer-no-data {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #6b7280;
+  padding: 16px;
+}
+
+

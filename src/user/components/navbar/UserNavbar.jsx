@@ -43,6 +43,7 @@ const UserNavbar = () => {
 
   return (
     <header className="user-navbar">
+
       <div className="logo" onClick={() => navigate("/")}>
         💎 Diamond Saloon
       </div>
@@ -56,6 +57,9 @@ const UserNavbar = () => {
 
         {/* Products */}
         <Link to="/user/products">Products</Link>
+
+        {/* ✅ NEW Packages Link */}
+        <Link to="/user/packages">Packages</Link>
 
         {user ? (
           <div
@@ -81,7 +85,6 @@ const UserNavbar = () => {
                   My Cart 🛒
                 </div>
 
-                {/* ✅ NEW OPTION */}
                 <div onClick={() => go("/user/orders")}>
                   My Orders 🧾
                 </div>

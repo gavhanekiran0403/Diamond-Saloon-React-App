@@ -5,6 +5,18 @@ import "./LandingPage.css";
 const LandingPage = () => {
   const navigate = useNavigate();
 
+  const handleBookAppointment = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+      // ✅ User logged in
+      navigate("/user/appointments");
+    } else {
+      // ❌ Not logged in
+      navigate("/user/login");
+    }
+  };
+
   return (
     <>
       {/* ✅ Hero Section */}
@@ -24,7 +36,7 @@ const LandingPage = () => {
 
           <button
             className="primary-btn"
-            onClick={() => navigate("/user/login")}
+            onClick={handleBookAppointment}
           >
             Book Appointment
           </button>

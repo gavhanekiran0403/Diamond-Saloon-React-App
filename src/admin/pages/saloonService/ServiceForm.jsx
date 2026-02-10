@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ServiceForm.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { addSaloonService, getSaloonServiceById, updateSaloonService } from "../../../services/SaloonService";
 
 const ServiceForm = () => {
   const navigate = useNavigate();
+  const {serviceId} = useParams();
 
   const [formData, setFormData] = useState({
     serviceName: "",
@@ -13,28 +15,57 @@ const ServiceForm = () => {
     isAvailable: true,
   });
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
+  useEffect(() => {
+    const loadService = async() => {
+    try {
+      const res = await getSaloonServiceById(serviceId);
+      setFormData(res.data);
+    } catch (error) {
+      alert("❌ Failed to load service data!");
+      console.log("Error loading service:", error);
+    }
   };
 
-  const handleSubmit = (e) => {
+    if(serviceId){
+      loadService();
+    }
+  }, [serviceId]);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    try {
+      if(serviceId){
+        await updateSaloonService(serviceId, formData);
+        alert("✅ Service Updated Successfully!");
+      }else {
+        await addSaloonService(formData);
+        alert("✅ Service Added Successfully!");
+      }
 
-    console.log("Service Data:", formData);
+      navigate("/admin/services");
 
-    // TODO: API call here
-    navigate("/admin/services");
+    } catch (error) {
+      alert("❌ Failed to save service!");
+      console.log("Save error:", error);
+    }
+    
   };
 
   return (
     <div className="service-form-page">
-      <h2 className="form-title">Add Service</h2>
+      <h2 className="form-title">{serviceId ? "Edit Service" : "Add Service"}</h2>
 
       <form className="service-form" onSubmit={handleSubmit}>
+        
         {/* Service Name */}
         <div className="form-group">
           <label>Service Name</label>
@@ -104,7 +135,7 @@ const ServiceForm = () => {
         {/* Buttons */}
         <div className="form-actions">
           <button type="submit" className="save-btn">
-            Save
+            {serviceId ? "Update" : "Save"}
           </button>
           <button
             type="button"
