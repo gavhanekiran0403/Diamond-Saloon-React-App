@@ -34,9 +34,9 @@ function AdminNavbar({ toggleSidebar, sidebarOpen }) {
   };
 
 
-
   return (
     <div className={`admin-navbar ${!sidebarOpen ? "full" : ""}`}>
+
 
 
       {/* mobile toggle */}

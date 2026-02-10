@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./AppointmentForm.css";
+import "./AdminAppointmentForm.css";
 
 import { getAllUsers } from "../../../services/UserService";
 import { getAllSaloonServices } from "../../../services/SaloonService";
@@ -15,7 +15,6 @@ const AppointmentForm = () => {
   const [services, setServices] = useState([]);
   const [packages, setPackages] = useState([]);
   const [timeSlots, setTimeSlots] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     userId: "",
@@ -29,7 +28,6 @@ const AppointmentForm = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        setLoading(true);
 
         const [usersRes, servicesRes, packagesRes] = await Promise.all([
           getAllUsers(),
@@ -44,9 +42,7 @@ const AppointmentForm = () => {
       } catch (err) {
         console.log(err);
         alert("❌ Failed to load data");
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
     loadData();
@@ -54,16 +50,25 @@ const AppointmentForm = () => {
 
   /* ================= GENERATE TIME SLOTS ================= */
   useEffect(() => {
-    const slots = [];
+  const slots = [];
 
-    for (let h = 9; h < 20; h++) {
-      const start = `${h.toString().padStart(2, "0")}:00`;
-      const end = `${(h + 1).toString().padStart(2, "0")}:00`;
-      slots.push(`${start} - ${end}`);
-    }
+  const formatTime = (hour) => {
+    const period = hour >= 12 ? "PM" : "AM";
 
-    setTimeSlots(slots);
-  }, []);
+    const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+
+    return `${hour12.toString().padStart(2, "0")}:00 ${period}`;
+  };
+
+  for (let h = 9; h < 20; h++) {
+    const start = formatTime(h);
+    const end = formatTime(h + 1);
+
+    slots.push(`${start} - ${end}`);
+  }
+
+  setTimeSlots(slots);
+}, []);
 
   /* ================= HANDLE CHANGE ================= */
   const handleChange = (e) => {
@@ -80,8 +85,6 @@ const AppointmentForm = () => {
     e.preventDefault();
 
     try {
-      setLoading(true);
-
       await createAppointment(formData); // ✅ API call
 
       alert("✅ Appointment booked successfully!");
@@ -90,17 +93,13 @@ const AppointmentForm = () => {
     } catch (error) {
       console.log(error);
       alert("❌ Failed to book appointment");
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   /* ================= UI ================= */
   return (
     <div className="appointment-form-page">
       <h2 className="form-title">Book Appointment</h2>
-
-      {loading && <p>Loading...</p>}
 
       <form className="appointment-form" onSubmit={handleSubmit}>
 
@@ -187,14 +186,14 @@ const AppointmentForm = () => {
         </div>
 
         {/* Buttons */}
-        <div className="form-actions">
-          <button type="submit" className="save-btn">
+        <div className="appointment-form-actions">
+          <button type="submit" className="appointment-save-btn">
             Book
           </button>
 
           <button
             type="button"
-            className="cancel-btn"
+            className="appointment-cancel-btn"
             onClick={() => navigate(-1)}
           >
             Cancel

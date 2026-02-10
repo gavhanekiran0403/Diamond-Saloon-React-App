@@ -44,10 +44,7 @@ const UserNavbar = () => {
   return (
     <header className="user-navbar">
 
-      <div className="logo" onClick={() => navigate("/")}>
-        💎 Diamond Saloon
-      </div>
-
+      <div className="logo">💎 Diamond Saloon</div>
       <nav className="menu">
         {/* Home */}
         <Link to="/">Home</Link>

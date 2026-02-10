@@ -26,4 +26,3 @@ export const updateProductCategory = (productCategoryId, categoryData) => {
 export const deleteProductCategory = (productCategoryId) => {
   return axios.delete(`${API_URL}/delete/${productCategoryId}`);
 };
-

@@ -50,7 +50,7 @@ const UserProducts = () => {
         {products.map((p) => (
           <div className="product-card" key={p.productId}>
             <img
-              src={`http://localhost:9292/${p.imageUrl}`}
+              src={`data:image/jpeg;base64,${p.imageUrl}`}
               alt={p.productName}
               onClick={() => navigate(`/user/products/${p.productId}`)}
             />

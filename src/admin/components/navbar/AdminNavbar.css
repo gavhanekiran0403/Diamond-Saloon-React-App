@@ -1,3 +1,4 @@
+
 .admin-navbar {
   height: 60px;
   background: #fff;
@@ -14,17 +15,25 @@
   z-index: 1500;
 }
 
+/* when sidebar collapsed */
+.admin-navbar.full {
+  left: 0;
+  width: 100%;
+}
+
 
 /* Right Section */
 .admin-navbar-right {
   display: flex;
   align-items: center;
   gap: 20px;
+
 }
 
 .admin-navbar.full {
   left: 0;
   width: 100%;
+
 
 }
 

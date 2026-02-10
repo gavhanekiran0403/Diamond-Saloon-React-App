@@ -159,9 +159,9 @@ const AppointmentList = () => {
               <tr>
                 <th>Sr.No.</th>
                 <th>Appointment ID</th>
-                <th>User ID</th>
-                <th>Service ID</th>
-                <th>Package ID</th>
+                <th>User</th>
+                <th>Service</th>
+                <th>Package</th>
                 <th>Date</th>
                 <th>Time Slot</th>
                 <th>Status</th>
@@ -174,9 +174,9 @@ const AppointmentList = () => {
                 <tr key={apt.appointmentId}>
                   <td>{index + 1}</td>
                   <td className="appointment-id-cell">{apt.appointmentId}</td>
-                  <td>{apt.userId}</td>
-                  <td>{apt.serviceId || "-"}</td>
-                  <td>{apt.packageId || "-"}</td>
+                  <td>{apt.fullName}</td>
+                  <td>{apt.serviceName || "-"}</td>
+                  <td>{apt.packageName || "-"}</td>
                   <td>{apt.appointmentDate}</td>
                   <td>{apt.timeSlot}</td>
                   <td>

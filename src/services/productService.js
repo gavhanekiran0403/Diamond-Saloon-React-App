@@ -31,7 +31,8 @@ export const getProductById = (productId) => {
 // GET PRODUCTS BY CATEGORY
 export const getProductsByCategory = (productCategoryId) => {
   return axios.get(`${API_URL}/get-by-category/${productCategoryId}`);
-};
+}
+
 
 // UPDATE PRODUCT
 export const updateProduct = (productId, productDto, imageFile) => {
